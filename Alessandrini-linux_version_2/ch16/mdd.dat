@@ -1,0 +1,8 @@
+400               # N
+4                 # nThreads
+4                 # NTk
+4000              # total number of steps per trajectory
+20                # number of samples
+2                 # granularity
+1.0  0.2  0.1     # dA dB dC
+0.04              # time step

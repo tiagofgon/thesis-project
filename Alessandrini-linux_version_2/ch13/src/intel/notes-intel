@@ -1,0 +1,19 @@
+Somme indications for the execution of the chapter 13 examples
+using the Intel compiler and vectorization options
+--------------------------------------------------------------
+
+This directory contains the codes used to perform the performance
+analysis reported in the book. Some sources are the same as in the
+general purpose repository: md.C, MdTbb.C, mdomp.C, mdompF.C
+
+Modified sources:
+
+-) mdth.C: replaces the traditional barrier by a spin barrier when  
+   SP_BARRIER is defined (as it is the case by default in the source)
+   The idea is to look at the performance of the improved barrier algorithm,
+   as discussed in the book
+
+-) mdompv.C: adds vectorization directives to the mdomp.C code. In addition,
+   this code is used to check the performance impact of memory alignment.
+   If ALIGNED_MEM_ALLOC is defined botn in mdompv.C and mdaux.C, all
+   memory allocations use the intel interfaces for 64 bit alignment.

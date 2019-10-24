@@ -1,0 +1,8 @@
+100             # N
+4              # total number of threads
+4              # total number of steps per run
+2000           # number of samples
+6 9            # I,J
+0.02   0.05    # time step  - probability
+1.0  0.2  0.1  # dA dB dC
+0.05           # cut

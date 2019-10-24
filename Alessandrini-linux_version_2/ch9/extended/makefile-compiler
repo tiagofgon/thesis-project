@@ -1,0 +1,18 @@
+# This included makefile contains gcc specific variables
+# for compilation
+# -------------------------------------------------------
+
+ifdef INTEL_ENV
+CXX = icpc
+else
+CXX = g++
+endif
+
+ifdef CPP11_ENV
+CPPFLAGS = -I../../vath_std/include
+CXXFLAGS = -std=c++11 -g -O3
+else
+CPPFLAGS = -I../../vath_pth/include -Iinclude
+CXXFLAGS = -g -O3
+endif
+

@@ -1,0 +1,6 @@
+12000              # N
+4                # nThreads
+10               # total number of steps per trajectory
+2               # number of samples
+1.0  0.2  0.1    # dA dB dC
+0.04             # time step

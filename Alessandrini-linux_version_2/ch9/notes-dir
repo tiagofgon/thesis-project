@@ -1,0 +1,75 @@
+Somme indications on the examples proposed in this chapter
+==========================================================.
+ ------------------------------- 
+#  Fully portable "vath" examples 
+# -------------------------------
+
+TBlock.C  Testing a timed wait using the BLock interface
+
+TSynch.C  Testing the Synch utility: one producer threads sending
+          data values to two or more reader threads
+
+TBkB.C    A simple test of the BkBarrier (blocking barrier) utility
+
+TBkB1.C   A more sophisticated test of BkBarrier: introduces a general
+          purpose thread function that execute tasks between two blocking
+          barriers. This is the way SPool works.
+
+TSBarrier.C Tests the behavior of the SpBarrier class.
+
+FlowControl.C  Using the capacity of the ThQueue queue to synchronize the
+               operation of producer and consumer tasks
+
+DbSearchRW.C   Testing the RWLock class (that encapsulates native RW locks)
+               in the database search example.
+
+DbBk.o         Confusing example, not really needed. I supress this code
+
+# ------------------- 
+#  Pthreads examples
+# -------------------
+
+Faccess_P.C    Uses Reader-Writer lock to read and write lines from and to 
+               a file. A timer is used to slow down threads
+
+
+VAccess_P.C    Using a RWLock to protect access ro std::vector container 
+               An extra mutex is required to protect writes to stdout, and 
+               this is why this is not portable.
+
+VAccessVA_P.C    Using my own rwlock class.
+
+
+# ------------------------------------- 
+#  Examples requiring explicit TBB 
+# -------------------------------------
+
+VAccessTbb.C        Using TBB rw_lock
+
+DbSearchRWTBB.o     Again,using TBB rw_lock
+
+#-----------------------------------------
+# OpenMP examples, or examples mixing vath
+# and OpenMP
+#-----------------------------------------
+
+TOmpSynch.C   Testing OmpSynch class with OpenMP threads
+
+TBlockOmp.C   Testing TBlock with OpenMP threads 
+
+TOmpBlock.C   Testing OmpBlock with OpenMP threads
+
+TSynchOmp.C   Testyng TSynch with OpenMP Threads
+
+IoTaskOmp.C   Testing OmpBLock synchronization in OpenMP environment
+
+DbSearchOmp.C  Not relevant - supressed.
+
+VAccessOmp4.o  Not relevant. This wanted to be an example of the "teams"
+               directive, but it does not work.
+
+--------------------------------------------------------------------------
+NOTICE: There is NO native RW lock in C++11. The solution is to use the
+TBB class, or my own implementation if I succeed in modifying it to avoid
+starvation.
+--------------------------------------------------------------------------
