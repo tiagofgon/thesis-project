@@ -1,0 +1,37 @@
+Somme indications for the execution of the examples in this
+chapter.
+
+-----------------------------------------------------------
+
+There are four types of examples in this directory:
+
+- Pthreads codes
+- Codes based on the C++11 thread library
+- OpenMP examples
+- One portable code using SPool threads + TBB
+
+
+To compile the SPool-TBB code:  make scap_tbb
+To run the SPool-TBB code    :  ./scap_tbb
+
+To compile all Pthreads codes:  make allpth
+To run all Pthreads codes    :  make runpth
+
+To compile all C++11 codes   :  set CPP11_ENV; make allstd
+To run ann C++11 codes       :  make runstd
+
+To compile all OpenMP codes  :  set OPENMP_ENV; make allomp
+To run all OpenMP codes      :  make runomp
+
+Remember:
+--------
+Unset the environment variables when they are no longer needed.
+
+Setting and unsetting environment variables (Linux)
+---------------------------------------------------
+
+export CPP11_ENV=1  (the value 1 is irrelevant) to set
+export CPP11_ENV=    to unset
+
+
+

@@ -1,0 +1,33 @@
+Somme indications for the execution of the chapter 13 examples
+--------------------------------------------------------------
+
+This chapter proposes several different versions of a molecular
+dynamic code. All codes are portable, and run on any "vath"
+implementation (Pthreads, Windiws or C++11)
+
+The general purpose code versions are:
+-------------------------------------
+
+-) Md.C (make md).        Sequential version
+-) MdTh.C (make mdth).    Parallel version, using the SPool pool
+-) MdTbb.C (make mdtbb).  Parallel version, using the TBB parallel_reduce
+                          algorithm
+
+-) MdOmp.C (make mdomp).   OpenMP macrotasking version.
+-) MdOmpF.C (make mdompf). OpenMP, microtasking version
+
+
+To compile all except OpenMP      :  make all
+To run all except OpenMP          :  make runall
+
+To compile all OpenMP examples    :  make allomp
+To run all OpenMP                 :  make runomp
+
+----------------------------------------------------------------------
+
+INTEL SUB-DIRECTORY: the /intel subdirectory contains the intel compiler
+specific makefile, including vectorization options, as well as the sources
+modified to incorporate vectorization and memory alignment directives.
+Just go to this directory and proceed as ussual.
+LOOK AT THE NOTES-INTEL FILE IN THIS SUB-DIRECTORY
+

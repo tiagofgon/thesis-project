@@ -1,0 +1,85 @@
+The content of this directory
+=============================
+
+Codes related to the MonteCarlo computation of PI
+-------------------------------------------------
+
+McObj.C :   Thread safe version of the MC computation of PI,
+            using a Rand C++ class and private Rand objects to
+            generate random numbers
+
+McSafe_S.C : Thread safe version of the MC computation of PI,
+             using the SPool utility to manage threads and the
+             "thread_local" C++11 keyword.
+
+McSafe_P.C : Thread safe version of the MC computation of PI,
+             using the SPool utility to manage threads and the
+             "key" thread local storage serice of Pthreads 
+
+McSafeTbb.C : Thread safe version of the MC computation of PI,
+              using the SPool utility to manage threads and the 
+              TBB thread local storage utility.
+
+McSafeOmp.C : Thread safe version of the MC computation of PI,
+              using OpenMP to manage threads, as well as the OpenMP
+              "threadprivate" directive.
+
+
+Codes related to the Gaussian random generator example
+------------------------------------------------------
+
+GrUnsafe.C : Gaussian random generator, thread unsafe version
+
+GrSafe.C :   Thread safe version, changing the signature of the generator.
+             Persistent state variables are passed and returned to client code
+             via a function argument.
+
+GrObj.C   :  Thread safe version. generator is implemented as C++ class, and
+             local objects are used to generate random values
+
+GrTbb.C:     Thread safe version, using the TBB utility for thread private
+             storage
+
+GrStd_S.C    Thread safe version, using the C++11 "thread_local" keyword
+             to implement thread private storage  
+
+GrOmp.C      Thread safe version, using OpenMP to manage threads, as well as
+             the OpenMP thread private directive.
+
+
+COMPILING AND RUNNING
+*********************                   
+
+We have four types of codes:
+
+1) A Pthreads code, McSafe_P.C
+1) Two codes based on the C++11 thread library: McSafe_S.C and GrStad_S.C
+2) Two portable OpenMP codes: McSafeOmp.C and GrOmp.C
+3) Codes managing threads via SPool (all the others). They can be run using
+   either the Pthreads or the C++11 version of vath. Some of them use TBB
+   utilities (remember in this case to initialze TBB by executing the 
+   tbbvars.sh script).
+
+To compile the Pthreads code :  make mcsafe_p
+To run the Pthreads code     :  ./mcsafe_p
+
+To compile all C++11 codes   :  set CPP11_ENV ; make allstd
+To run all C++11 codes       :  make runstd
+
+To compile all OpenMP codes  :  set OPENMP_ENV; make allomp
+To run ann SPool codes       :  make runomp
+
+To compile all SPool codes   :  make allsp
+To run ann SPool codes       :  make runsp
+
+Remember:
+--------
+Unset the environment variables when they are no longer needed.
+
+
+Setting and unsetting environment variables (Linux)
+---------------------------------------------------
+
+export STD_CPP11_ENV=1  (the value 1 is irrelevant) to set
+export STD_CPP11_ENV=    to unset
+

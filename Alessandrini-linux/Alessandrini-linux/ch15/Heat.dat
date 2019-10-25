@@ -1,0 +1,8 @@
+
+N        1024
+M        1024
+steps    40
+nB       6
+deltaT   500.0
+capacity 4
+

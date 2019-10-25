@@ -1,0 +1,19 @@
+Somme indications for the execution of the examples in this
+chapter.
+-----------------------------------------------------------
+
+This chapter deals with the vath thread pools, and in particular
+with the task centric NPool utility. All codes are portable
+
+Thos directory contains all the examples discussed in the book, 
+plus a few additional examples. The sources describe their object
+and meaning.
+
+To compile one specific example: make exec_name
+
+To compile all book examples      :  make allbook
+To run all book examples          :  make runbook
+
+To compile all additional examples   :  make allsuppl
+To run all additional examples       :  make runsuppl
+

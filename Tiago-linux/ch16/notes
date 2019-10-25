@@ -1,0 +1,17 @@
+Somme indications for the execution of the chapter 16 examples
+--------------------------------------------------------------
+
+This chapter proposed a number of examples concerning the basic
+TBB task scheduler. Besides the examples discussed in the book,
+there are a few other additional examples incorporated here, that
+may be useful.
+
+To compile all book examples      :  make all
+To run all book examples          :  make runall
+
+To compile all additional examples  :  make allx
+To run all additional examples      :  make runallx
+
+The makefile in this directory has a clear separation of the book
+and additional examples. The source files explain the example meaning
+and purpose.

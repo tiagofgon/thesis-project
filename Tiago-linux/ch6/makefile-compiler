@@ -1,0 +1,34 @@
+# This included makefile contains gcc specific variables
+# for compilation
+# -------------------------------------------------------
+
+ifdef INTEL_ENV
+CXX = icpc
+#--------------------
+ifdef OPENMP_ENV
+OPENMP_FLAG = -openmp
+else
+OPENMP_FLAG =
+endif
+#-------------------
+else
+CXX = g++
+#--------------------
+ifdef OPENMP_ENV
+OPENMP_FLAG = -fopenmp
+else
+OPENMP_FLAG =
+endif
+#------------------
+endif
+
+ifdef CPP11_ENV
+CPPFLAGS = -I../vath_std/include -Iinclude
+CXXFLAGS = -std=c++11 -g -O3 ${OPENMP_FLAG}
+else
+CPPFLAGS = -I../vath_std/include -Iinclude
+CXXFLAGS = -std=c++11 -g -O3 ${OPENMP_FLAG}
+#CPPFLAGS = -I../vath_pth/include -Iinclude
+#CXXFLAGS = -g -O3 ${OPENMP_FLAG}
+endif
+

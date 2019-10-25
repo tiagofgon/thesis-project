@@ -1,3 +1,1 @@
-# tiagoPool
-
-Este software é baseado no livro Alessandri.
+# Parallel programing library
