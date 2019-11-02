@@ -1,5 +1,5 @@
 # Master thesis project
-The main objective of this project was reserch the parallelism wich C++ can offer.
+The main objective of this project was reserch the parallelism C++ can offer.
 The result of the study was develop a multithreading based library inspired on Vath and Thread Pool libraries. 
 
 # Librarys
