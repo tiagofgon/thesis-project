@@ -11,24 +11,13 @@
 #include <stdlib.h>
 #include <iostream>
 #include <NPool.h>
-#include <Timer.h>
-#include <RandInt.h>
-#include <SafeCout.h>
 
-#include <cstdint>
 #include <future>
-#include <vector>
-#include <queue>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <functional>
+
 
 using namespace std;
 
 NPool *NP;
-RandInt  R(1000);     // generates random integers in [0, 1000]
-SafeCout SC;          // for screen output
 
 // -----------------------------------------
 // Auxiliary function, to print a job status

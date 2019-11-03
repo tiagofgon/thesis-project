@@ -18,11 +18,11 @@ OBJECTS = Barrier.o  BLock.o  SpBarrier.o  BkBarrier.o  InputList.o \
 # Variables concerning include and library paths
 # """"""""""""""""""""""""""""""""""""""""""""""
 ifdef CPP11_ENV
-PATHVA = ../vath_tiago/ 
-CPPFLAGS = -Iinclude -I../vath_tiago/include 
+PATHVA = ../vath_tfg/ 
+CPPFLAGS = -Iinclude -I../vath_tfg/include 
 else
-PATHVA = ../vath_tiago/
-CPPFLAGS = -Iinclude -I../vath_tiago/include
+PATHVA = ../vath_tfg/
+CPPFLAGS = -Iinclude -I../vath_tfg/include
 endif
 
 

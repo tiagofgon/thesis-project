@@ -11,7 +11,6 @@ else
 OPENMP_FLAG =
 endif
 #-------------------
-
 else
 CXX = g++
 #--------------------
@@ -23,7 +22,11 @@ endif
 #------------------
 endif
 
-
-CPPFLAGS = -I../vath_tiago/include -Iinclude
+ifdef CPP11_ENV
+CPPFLAGS = -I../vath_tfg/include -Iinclude
 CXXFLAGS = -std=c++14 -pthread -g -O3 ${OPENMP_FLAG}
+else
+CPPFLAGS = -I../vath_tfg/include -Iinclude
+CXXFLAGS = -std=c++14 -pthread -g -O3 ${OPENMP_FLAG}
+endif
 
