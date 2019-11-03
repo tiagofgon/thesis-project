@@ -1,0 +1,32 @@
+Somme indications for the execution of the examples in this
+chapter.
+
+-----------------------------------------------------------
+
+There are three types of examples:
+
+- Codes based on the Pthreads library
+- Codes based on the C++11 threads
+- OpenMP codes
+
+
+To compile all Pthreads codes:  make allpth
+To run all Pthreads codes    :  make runpth 
+
+To compile all C++11 codes   :  set CPP11_ENV ; make allstd
+To run ann Boost codes       :  make runstd
+
+To compile all OpenMP codes  :  set OPENMP_ENV; make allomp
+To run ann SPool codes       :  make runomp
+
+Remember:
+--------
+Unset the environment variables when they are no longer needed.
+
+
+Setting and unsetting environment variables (Linux)
+---------------------------------------------------
+
+export CPP11_ENV=1  (the value 1 is irrelevant) to set
+export CPP11_ENV=    to unset
+
