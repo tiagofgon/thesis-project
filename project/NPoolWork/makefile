@@ -1,7 +1,9 @@
 VPATH = src
 
 EXECS =  heat  heatnp heatnpa heatbb \
-         sor sornp sornpa sortbb
+         sor sornp sornpa sortbb \
+		 tnp1 tnp2 \
+		 fibonacci fibonacci2 fibonacci3
 
 EXECS_X =  heath  heath_t  dsor dsortbb
 
@@ -43,6 +45,29 @@ heatomp:  HeatOmp.o HeatAux.o
 heatbb:  HeatTBB.o HeatAux.o
 	${CXX} -oheatbb HeatTBB.o HeatAux.o -lm -ltbb 
 	rm HeatTBB.o
+
+# """"""""""""""""""
+# My codes
+# """""""""""""""""" 
+tnp1:   TNPool1.o
+	${CXX} -otnp1 TNPool1.o ${PATHV} ${LBASE} -lvath 
+	rm TNPool1.o
+
+tnp2:   TNPool2.o
+	${CXX} -otnp2 TNPool2.o ${PATHV} ${LBASE} -lvath
+	rm TNPool2.o
+
+fibonacci: fibonacci.o
+	${CXX} -ofibonacci fibonacci.o ${PATHV} ${LBASE} -lvath
+	rm fibonacci.o
+
+fibonacci2: fibonacci2.o
+	${CXX} -ofibonacci2 fibonacci2.o ${PATHV} ${LBASE} -lvath
+	rm fibonacci2.o
+
+fibonacci3: fibonacci3.o
+	${CXX} -ofibonacci3 fibonacci3.o -pthread ${PATHV} ${LBASE} -lvath
+	rm fibonacci3.o
 
 # """""""""""""""""""""""
 # Additional heat codes
@@ -134,6 +159,11 @@ runall:
 	./sornp
 	./sornpa
 	./sortbb
+	./tnp1
+	./tnp2
+	./fibonacci
+	./fibonacci2
+	./fibonacci3
 
 .PHONY: runallx
 runallx:

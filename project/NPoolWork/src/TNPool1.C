@@ -28,25 +28,6 @@ void ReportStatus(bool S)
    else cout << "\n Job is finished" << endl;
    }
 
-// class TestTask: public Task
-//    {
-//    private:
-//     int rank;
-//     long timewait;
-//     Timer T;
-//     ostringstream os;
-
-//    public:
-//    TestTask(int r): Task(), rank(r) {}
-
-//    void ExecuteTask()
-//       {
-//       // --------------------------------
-     
-//       // -------------------------------
-//       }
-//    };
-
 
 class SQUARE
 {
@@ -58,7 +39,7 @@ public:
 
 
 auto squareT (const uint64_t x, uint64_t y) {
-      cout << "olaaaaaaaaaaaaaaaaaaa" << endl;
+      cout << "olaaaaaaaaaaaaaaaaaaa!" << endl;
         return x*x+y;
     };
 

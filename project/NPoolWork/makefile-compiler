@@ -27,6 +27,6 @@ CPPFLAGS = -I../vath_tfg/include -Iinclude
 CXXFLAGS = -std=c++17 -g -O3 ${OPENMP_FLAG}
 else
 CPPFLAGS = -I../vath_tfg/include -Iinclude
-CXXFLAGS = -g -O3 ${OPENMP_FLAG}
+CXXFLAGS = -std=c++17 -g -O3 ${OPENMP_FLAG}
 endif
 
