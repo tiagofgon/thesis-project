@@ -85,15 +85,15 @@ int main(int argc, char **argv)
       // --------------------------------------------------------------
       #pragma omp parallel for schedule(static) reduction(+:error_norm)
       for(m=1; m<M-1; m++)
+         {
+         for(n=1; n<(N-1); n++)
             {
-            for(n=1; n<(N-1); n++)
-               {
                resid = U[m+1][n] + U[m-1][n] + U[m][n-1] + U[m][n+1]
-		               - 4 * U[m][n];
-	       error_norm += fabs(resid);
+                     - 4 * U[m][n];
+               error_norm += fabs(resid);
                V[m][n] = U[m][n] + 0.25 * resid;    
-	       }
-	    }
+            }
+	      }
 
       curr_error = error_norm; 
       moreCycles = NextIteration(curr_error);

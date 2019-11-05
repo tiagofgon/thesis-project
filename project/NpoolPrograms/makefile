@@ -3,7 +3,8 @@ VPATH = src
 EXECS =  heat  heatnp heatnpa heatbb \
          sor sornp sornpa sortbb \
 		 tnp1 tnp2 \
-		 fibonacci fibonacci2 fibonacci3
+		 fibonacci fibonacci2 fibonacci3 \
+		 heatnptfg
 
 EXECS_X =  heath  heath_t  dsor dsortbb
 
@@ -68,6 +69,10 @@ fibonacci2: fibonacci2.o
 fibonacci3: fibonacci3.o
 	${CXX} -ofibonacci3 fibonacci3.o -pthread ${PATHV} ${LBASE} -lvath
 	rm fibonacci3.o
+
+heatnptfg:  HeatNPtfg.o HeatAux.o
+	${CXX} -oheatnptfg HeatNPtfg.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 
+	rm HeatNPtfg.o
 
 # """""""""""""""""""""""
 # Additional heat codes
@@ -164,6 +169,7 @@ runall:
 	./fibonacci
 	./fibonacci2
 	./fibonacci3
+	./heattfg
 
 .PHONY: runallx
 runallx:

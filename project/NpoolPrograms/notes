@@ -14,8 +14,10 @@ A - HEAT
 -) HeatNPa.C  (make heatnpa) Same as HeatNP.C, but using a custom, high
               performance barrier
 -) HeatTBB.C  (make heatbb) Parallel version, using TBB parallel_reduce
--) HeatOmp.C  (make heatomp) OpenMP code, macrotasking style
--) HeatF.C    (make heatf) OpenMP code, using parallel for (microtasking)
+
+-) HeatOmp.C  (make heatomp) OpenMP code, macrotasking style - OpenMP macrotasking version, where the work distribution across tasks is done by hand.
+
+-) HeatF.C    (make heatf) OpenMP code, using parallel for (microtasking) - OpenMP microtasking version using parallel for , with the collapse(2) clause to enforce loop fusion, possible in this case.
 
 Additional versions, not discussed in book:
 ------------------------------------------

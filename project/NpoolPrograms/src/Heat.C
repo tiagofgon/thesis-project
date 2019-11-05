@@ -104,10 +104,11 @@ int main(int argc, char **argv)
    InputData();
    InitJob(M, N);
    CpuTimer TR;
-   
+   int apagar=0;
    TR.Start(); 
    do
       {
+         apagar++;
       error_norm = 0.0;
       for(m=1; m<M-1; m++)
             {
@@ -122,6 +123,7 @@ int main(int argc, char **argv)
       curr_error = error_norm; 
       moreCycles = NextIteration(curr_error);
       }while(moreCycles);
+      cout << "cicles " << apagar << endl;
    TR.Stop();
 
    // -------------
