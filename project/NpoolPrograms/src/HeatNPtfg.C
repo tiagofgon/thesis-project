@@ -9,13 +9,13 @@
 #include <CpuTimer.h>
 #include <NPool.h>        
 #include <math.h>        
-#include <Barrier.h>   
+#include <TBarrier.h> 
 #include <Reduction.h>  
 
 // Global variables
 // -----------------
 NPool             *TP;
-Barrier        *B;
+TBarrier        *B;
 Reduction<double> R;
 bool              moreCycles;
 
@@ -86,44 +86,7 @@ void ThreadRange(int& Beg, int& End, int rank)
              << std::endl;
    }
 
-// class HeatTask : public Task
-//    {
-//    private:
-//     int rank;      // The rank of this thread
-//     int beg, end;  // The loop range of this thread
 
-//    public:
-//     HeatTask(int R) : rank(R), beg(1), end(M-1) 
-//        { ThreadRange(beg, end, rank); }
-
-//     void ExecuteTask()
-//        {
-//        double error, thread_error;
-//        int m, n;
-//        do
-//           {
-//           thread_error = 0.0;
-//           for(m=beg; m<end; m++)
-//              {
-//              for(n=1; n<(N-1); n++)
-//                 {
-//                 error = U[m+1][n] + U[m-1][n] + U[m][n-1] + U[m][n+1]
-// 	 	                   - 4 * U[m][n];
-// 	        thread_error += fabs(error);
-//                 V[m][n] = U[m][n] + 0.25 * error;    
-// 	        }
-// 	    }
-
-//           R.Accumulate(thread_error);
-//           B->Wait();
-//           if(rank==1)
-//              { moreCycles = NextIteration(R.Data()); }
-//           B->Wait();
-//           }while(moreCycles);
-//        }
-//     };
-
-       
 int main(int argc, char **argv)
    {
    CpuTimer TR;
@@ -132,10 +95,10 @@ int main(int argc, char **argv)
    if(argc==2) nThreads = atoi(argv[1]);
 
    TP = new NPool(nThreads);
-   B  = new Barrier(nThreads);
+   B  = new TBarrier(nThreads);
 
 
-
+   std::vector<std::future<int>> futures;
 
    auto heatTask = [](int rankk) {
       int rank=rankk;      // The rank of this thread
@@ -144,6 +107,7 @@ int main(int argc, char **argv)
       ThreadRange(beg, end, rank);
       double error, thread_error;
       int m, n;
+      moreCycles = true;
       do {
          apagar++;
          thread_error = 0.0;
@@ -160,9 +124,12 @@ int main(int argc, char **argv)
          B->Wait();
          if(rank==1) {
             moreCycles = NextIteration(R.Data()); 
+            // cout << moreCycles << endl;
          }
          B->Wait();
          }while(moreCycles);
+         // cout << "ola-------" << endl;
+      return 0;
       //cout << "cicles " << apagar << endl;
    };
 
@@ -175,7 +142,7 @@ int main(int argc, char **argv)
    for(int n=1; n<=nThreads; ++n) {
       Task *t = new Task();
       auto future = t->insertTask(heatTask, n);
-
+      futures.emplace_back(std::move(future));
       TG->Attach(t);
       
 
@@ -187,6 +154,10 @@ int main(int argc, char **argv)
    int jobid = TP->SubmitJob(TG);
    TP->WaitForJob(jobid);
    TR.Stop();
+
+   for (auto& future : futures) {
+        auto a = future.get();
+   }
 
    PrintResult(50);
    TR.Report();
