@@ -2,9 +2,9 @@
 The main objective of this project is reserch the parallelism and performance that C++ can offer.
 
 # Librarys
-- Vath
-- Thread Pool
-- Vath_tfg
+- alessandrini-linux
+- thread_pool
+- project
 
 ## Vath
 A relatively small, high-level library presented in the book **Shared Memory Application Programming Concepts and strategies in multicore application programming**, called vath, written by the book author **Victor Alessandrini**. This library proposes some high-level, easy-to-use utilities in the form of C++ classes that encapsulate the low-level primitives provided by the basic libraries. The main propose use of this library on this project is to take advantage of the SPool and NPool thread pool classes proposed, implementing, respectively, a thread-centric or a task-centric programming environment.
