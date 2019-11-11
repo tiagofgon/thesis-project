@@ -74,6 +74,10 @@ heatnptfg:  HeatNPtfg.o HeatAux.o
 	${CXX} -oheatnptfg HeatNPtfg.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 
 	rm HeatNPtfg.o
 
+addvec:  AddVectors.o
+	${CXX} -oaddvec AddVectors.o ${PATHV} ${LBASE} -lvath 
+	rm AddVectors.o
+
 # """""""""""""""""""""""
 # Additional heat codes
 # """"""""""""""""""""""
