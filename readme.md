@@ -1,5 +1,4 @@
 # C++ project
-The main objective of this project is reserch the parallelism and performance that C++ can offer.
 
 # Directories
 - alessandrini-linux
