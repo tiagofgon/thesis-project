@@ -1,0 +1,27 @@
+# This included makefile contains gcc specific variables
+# for compilation
+# -------------------------------------------------------
+
+ifdef INTEL_ENV
+CXX = icpc
+#--------------------
+ifdef OPENMP_ENV
+OPENMP_FLAG = -openmp
+else
+OPENMP_FLAG =
+endif
+#-------------------
+else
+CXX = g++
+#--------------------
+ifdef OPENMP_ENV
+OPENMP_FLAG = -fopenmp
+else
+OPENMP_FLAG =
+endif
+#------------------
+endif
+
+CPPFLAGS = -I../flib/include -Iinclude
+CXXFLAGS = -std=c++17 -g -O3 ${OPENMP_FLAG}
+
