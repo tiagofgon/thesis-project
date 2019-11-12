@@ -266,9 +266,9 @@ int NPool::SpawnTask(Task *tg, bool iswaited)
       // ---------------------------
       
       int rank = TM->GetRank();
-
       QTaskArray[rank]->Add(tg);
-      
+      // QTaskArray[(rank%nThreads)+1]->Add(tg);
+      //cout << "myrank: " << rank << "next: " << (rank%nThreads)+1 << endl;
       nTasks++;
       }
    return 1; 
@@ -356,10 +356,11 @@ void NPool::TPool_Thread(int n)
 
       // Execute the task function
       // -------------------------
+      std::cout << "OLAAAA" << std::endl;
       std::function<void(void)> taskFunction;
       taskFunction = std::move(T->taskFunction);
       taskFunction();
-
+      
       // Decrease refcount of parent
       // ---------------------------
       if(my_parent!=NULL && T->Am_I_Waited()) 

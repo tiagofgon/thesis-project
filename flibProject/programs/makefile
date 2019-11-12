@@ -1,7 +1,7 @@
 VPATH = src
 
 EXECS =  tnp1 tnp2 \
-		 fibonacci fibonacci2 fibonacci3 \
+		 fibonacci_async fibonacci3 \
 		 heatnptfg
 
 EXECS_X =  heath  heath_t  dsor dsortbb
@@ -29,17 +29,17 @@ tnp2:   TNPool2.o
 	${CXX} -otnp2 TNPool2.o ${PATHV} ${LBASE} -lvath
 	rm TNPool2.o
 
-fibonacci: fibonacci.o
-	${CXX} -ofibonacci fibonacci.o ${PATHV} ${LBASE} -lvath
-	rm fibonacci.o
-
-fibonacci2: fibonacci2.o
-	${CXX} -ofibonacci2 fibonacci2.o ${PATHV} ${LBASE} -lvath
-	rm fibonacci2.o
+fibonacci_async: fibonacci_async.o
+	${CXX} -ofibonacci_async fibonacci_async.o ${PATHV} ${LBASE} -lvath
+	rm fibonacci_async.o
 
 fibonacci3: fibonacci3.o
 	${CXX} -ofibonacci3 fibonacci3.o -pthread ${PATHV} ${LBASE} -lvath
 	rm fibonacci3.o
+
+fibonacci_atomic: fibonacci_atomic.o
+	${CXX} -ofibonacci_atomic fibonacci_atomic.o -pthread ${PATHV} ${LBASE} -lvath
+	rm fibonacci_atomic.o
 
 heatnptfg:  HeatNPtfg.o HeatAux.o
 	${CXX} -oheatnptfg HeatNPtfg.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 

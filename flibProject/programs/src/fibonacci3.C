@@ -14,52 +14,6 @@
 #include <future>
 
 
-using namespace std;
-
-
-
-int foo(double a, char b, bool c){
-   cout << "olaaaaa" << endl;
-   return 29;
-}
-
-void print_int(std::future<int>& fut) {
-    int x = fut.get(); // future would wait prom.set_value forever
-    std::cout << "value: " << x << '\n';
-}
-
-using namespace std;
-
-// int fibonacci(std::future<int> && fut){
-//    int n = fut.get(); // future would wait prom.set_value forever
-//    if(n < 2)
-//       return n;
-//    else
-//    {
-//       std::promise<int> prom1;                      // create promise
-//       std::future<int> fib_result1 = prom1.get_future();    // engagement with future
-
-//       std::promise<int> prom2;                      // create promise
-//       std::future<int> fib_result2 = prom2.get_future();    // engagement with future
-
-//       std::thread th1(fibonacci, ref(fib_result1));  // send future to new thread
-//       std::thread th2(fibonacci, ref(fib_result2));  // send future to new thread
-
-//       prom1.set_value(n);  // fulfill promise
-//       prom2.set_value(n);  // fulfill promise
-                                                 
-//       th1.join();
-//       th2.join();
-
-//       // get the result, vai buscar o valor de retorno que está presente nos futures
-//       int res1 = fib_result1.get();
-//       int res2 = fib_result2.get();
-
-//       return res1 + res2;
-//    }
-// }
-
-
 void fibonacci(std::promise<int>&& prom, int n){
     if(n < 2)
         prom.set_value(n);
@@ -105,7 +59,7 @@ int main(int argc, char *argv[]) {
     int res = fib_result.get();
     th1.join();
 
-    cout << res << endl;
+    std::cout << res << std::endl;
 
     return 0;
 }  

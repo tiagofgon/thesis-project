@@ -58,10 +58,3 @@ To run all book examples (except OpenMP)          :  make runall
 To compile all additional examples (except OpenMP)  :  make allx
 To run all additionsl (except OpenMP)               :  make runallx
 
-----------------------------------------------------------------------
-
-INTEL SUB-DIRECTORY: the /intel subdirectory contains the intel compiler
-specific makefile, including vectorization options, as well as the sources
-modified to incorporate vectorization and memory alignment directives.
-Just go to this directory and proceed as ussual.
-LOOK AT THE NOTES-INTEL FILE IN THIS SUB-DIRECTORY
