@@ -1,17 +1,15 @@
 /* ---------------------------------------------------------------------------
-    Made by Tiago Gonçalves
- --------------------------------------------------------------------------*/
 
+ --------------------------------------------------------------------------*/
 // NPool.C
-// ============
+// Master class for NPool utility
+// =========================================================
 
 #include <stdlib.h>
 #include "NPool.h"
 #include "Task.h"
 #include "ThreadMgr.h"
-#include <vector>
-#include <array>
-#include <mutex>
+#include <iostream>
 
 // ***************< THREAD FUNCTION >**********************
 // This function is the thread function that will be passed 
@@ -27,6 +25,7 @@
 
 void ThreadFunction(void *arg, int n)
    {
+      
    NPool *NP;
    NP = (NPool *)arg;      // get reference to Thread Pool
    NP->TPool_Thread(n);     // call ThPool internal member function
@@ -40,22 +39,22 @@ void ThreadFunction(void *arg, int n)
 // -----------------------
 // Constructor: NO CHANGE
 // ----------------------
-NPool::NPool(int nTh, int nMax) {
+NPool::NPool(int nTh, int nMax)
+   {
    // initialize the fields, copying the input parameters 
    // --------------------------------------------------
-
+   
    nThreads = nTh;
    nWorkers = 0;
    nTasks = 0;
    last_key = 10;
 
-   
    // Create task and Job queues
    // --------------------------
+   //QTask = new ThDeque<Task*>();
+
    QJob  = new ThDeque<TaskGroup*>();
-
    QTaskArray = new ThDeque<Task*> *[nThreads+1];
-
    for(int n=1; n<=nThreads; n++) {
       QTaskArray[n] = new ThDeque<Task*>();
    }
@@ -63,24 +62,17 @@ NPool::NPool(int nTh, int nMax) {
    // Allocate ThreadManager
    // ----------------------
    TM = new ThreadMgr(nThreads, this);
-
-}
-
-   
-   
+   }
 
 // ----------------------
 // Destructor : NO CHANGE
 // ----------------------
-NPool::~NPool() {
-    //QTask->CloseQueue();
-   //  QTask1->CloseQueue();
-   //  QTask2->CloseQueue();
-   
+NPool::~NPool() 
+    {
    for(int n=1; n<=nThreads; n++){
       QTaskArray[n]->CloseQueue();
    }
-
+    //QTask->CloseQueue();
 
     // --------------------------------------------------
     // Notice: the order in which we call the destructors
@@ -94,16 +86,14 @@ NPool::~NPool() {
     // destroyed while idle threads are still waiting to be
     // released.
     // ---------------------------------------------------
-    
     delete TM;
-
     for(int n=1; n<=nThreads; n++){
       QTaskArray[n]->CloseQueue();
       delete QTaskArray[n];
    }
-
+    //delete QTask;
     delete QJob;
-}
+    }
 
 // ----------------------------------------------
 // FlushJobQueue()
@@ -119,17 +109,16 @@ bool NPool::FlushJobQueue()
 
 void NPool::FlushTasks(TaskGroup *tg)
    {
-   int rank = TM->GetRank();	   
-   int i;  
+   int rank = TM->GetRank();	     
    std::list<Task*>::iterator pos;
+   int i;
    for(pos=tg->LT.begin(), i=0; pos!=tg->LT.end(); pos++, i++)
       {
       Task *t = *pos;      //  recover the Task* pointed by pos
-
+      //QTask->Add(t);
       QTaskArray[(i%nThreads)+1]->Add(t);
-
       nTasks++;
-      }
+      }   
    }
 
 // -------------------------------------------------
@@ -264,11 +253,10 @@ int NPool::SpawnTask(Task *tg, bool iswaited)
 
       // Post directly to task queue
       // ---------------------------
-      
+      //QTask->Add(tg);
       int rank = TM->GetRank();
+      //std::cout << "rank= " << rank << std::endl;
       QTaskArray[rank]->Add(tg);
-      // QTaskArray[(rank%nThreads)+1]->Add(tg);
-      //cout << "myrank: " << rank << "next: " << (rank%nThreads)+1 << endl;
       nTasks++;
       }
    return 1; 
@@ -280,13 +268,13 @@ int NPool::SpawnTask(Task *tg, bool iswaited)
 // Stops worker threads, by closing the
 // task queue
 // ------------------------------------   
-void NPool::ClosePool() {
-
+void NPool::ClosePool()
+   {
+   //QTask->CloseQueue();
    for(int n=1; n<=nThreads; n++) {
       QTaskArray[n]->CloseQueue();
    }
-
-}
+   }
 
 // --------------------------------
 // Returns ID rank of caller thread
@@ -321,16 +309,15 @@ void NPool::TPool_Thread(int n)
    int rank, key;
    bool state;
    Task* T, *my_parent;
-
    rank=n;
 
    for(;;) // Here we start an infinite loop
       {
+         T = QTaskArray[rank]->Remove(state);
 
-      T = QTaskArray[rank]->Remove(state);
-
+      //T = QTask->Remove(state);      // read task address 
       if(state==false) break;
-      
+
       // -------------------------------------------
       // Set up the data items needed to manage the
       // mapping of tasks to threads
@@ -344,9 +331,8 @@ void NPool::TPool_Thread(int n)
      // Get the JobMgr in charge of this task
       // ------------------------------------
       key = T->GetJobid();
-
       std::shared_ptr<JobMgr> JM = M[key];
-       
+      
       // Increase nWorkers
       // -----------------
           {
@@ -356,11 +342,11 @@ void NPool::TPool_Thread(int n)
 
       // Execute the task function
       // -------------------------
-      std::cout << "OLAAAA" << std::endl;
+      //T->ExecuteTask();
       std::function<void(void)> taskFunction;
       taskFunction = std::move(T->taskFunction);
       taskFunction();
-      
+
       // Decrease refcount of parent
       // ---------------------------
       if(my_parent!=NULL && T->Am_I_Waited()) 
@@ -437,18 +423,16 @@ int NPool::SuspendAndRunTask()
    Task *T, *my_parent, *save_task;
    int key;
    bool state;
-   //JobMgr *JM;
    std::shared_ptr<JobMgr> JM;
 	int rank = TM->GetRank();
-
+   //T = QTask->TryRemoveBack(state);      // read task address
    T = QTaskArray[rank]->TryRemoveBack(state);
-
    if(state==false) return 0;
 
    // Here, we have removed a task for execution
    // ------------------------------------------
    my_parent = T->GetParent();
-   
+   //int rank = TM->GetRank();
    T->SetOwnerRank(rank);
 
    // In the ThreadManager, we have to switch the tasks that
@@ -467,10 +451,8 @@ int NPool::SuspendAndRunTask()
    std::function<void(void)> taskFunction;
    taskFunction = std::move(T->taskFunction);
    taskFunction();
-
    if(my_parent!=NULL && T->Am_I_Waited()) 
          my_parent->DecreaseRefcount(); 
-
 
    // -----------------------------------------------
    // Now, decrease n_active in the Tgroup. If we
@@ -495,7 +477,8 @@ int NPool::SuspendAndRunTask()
 // we are sure that children are executed, and the 
 // system does not deadlock
 // ----------------------------------------------------
-void NPool::TaskWait() {
+void NPool::TaskWait()
+   {
 	int retval;
    do
       {

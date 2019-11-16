@@ -23,5 +23,5 @@ endif
 endif
 
 CPPFLAGS = -I../flib/include -Iinclude
-CXXFLAGS = -std=c++17 -g -O3 ${OPENMP_FLAG}
+CXXFLAGS = -std=c++14 -fpermissive -g -O3 ${OPENMP_FLAG}
 

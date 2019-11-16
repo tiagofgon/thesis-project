@@ -33,13 +33,13 @@ fibonacci_async: fibonacci_async.o
 	${CXX} -ofibonacci_async fibonacci_async.o ${PATHV} ${LBASE} -lvath
 	rm fibonacci_async.o
 
-fibonacci3: fibonacci3.o
-	${CXX} -ofibonacci3 fibonacci3.o -pthread ${PATHV} ${LBASE} -lvath
-	rm fibonacci3.o
+fibonacci_1: fibonacci_1.o
+	${CXX} -ofibonacci_1 fibonacci_1.o -pthread ${PATHV} ${LBASE} -lvath
+	rm fibonacci_1.o
 
-fibonacci_atomic: fibonacci_atomic.o
-	${CXX} -ofibonacci_atomic fibonacci_atomic.o -pthread ${PATHV} ${LBASE} -lvath
-	rm fibonacci_atomic.o
+fibonacci_2: fibonacci_2.o
+	${CXX} -ofibonacci_2 fibonacci_2.o -pthread ${PATHV} ${LBASE} -lvath
+	rm fibonacci_2.o
 
 heatnptfg:  HeatNPtfg.o HeatAux.o
 	${CXX} -oheatnptfg HeatNPtfg.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 

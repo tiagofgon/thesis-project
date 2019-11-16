@@ -241,7 +241,7 @@ class JobMgr
       n_tasks--;
       if(n_tasks==0)
          {
-         status = true; // false=running, true=terminated
+         status = true;
          JC->UnregisterJob();
          gBlock.Set_And_Notify_All(true);  // signal end of job       
          }

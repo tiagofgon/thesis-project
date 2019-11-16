@@ -55,11 +55,6 @@
 #include <list>
 #include <thread>
 #include "Task.h"
-#include <mutex>
-#include <tuple>
-#include <vector>
-
-
 
 class ThreadMgr
    {
@@ -68,15 +63,15 @@ class ThreadMgr
     std::mutex       mgr_mutex;
     int              nThreads;    // number of workers in pool
     std::thread::id  *th_id;      // identifiers of threads in pool
-    
+    std::thread      **WT;        // threads ID
+
     public:
     //----
 	 Task*            *curr_task;  // array that maps tasks* to threads
-    std::thread      **WT;        // threads ID
 
      ThreadMgr(int Nth, void *P);
      ~ThreadMgr();
-     int   GetRank();    
+     int   GetRank();         
      Task *GetCurrTask();
      void SetCurrTask(Task *t); 
     };
