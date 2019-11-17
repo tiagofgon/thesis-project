@@ -6,9 +6,9 @@
 // =========================================================
 
 #include <stdlib.h>
-#include "NPool.h"
-#include "Task.h"
-#include "ThreadMgr.h"
+#include "NPool.hpp"
+#include "Task.hpp"
+#include "ThreadMgr.hpp"
 #include <iostream>
 
 // ***************< THREAD FUNCTION >**********************

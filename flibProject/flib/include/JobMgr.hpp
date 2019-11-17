@@ -40,9 +40,9 @@
 
 #include <list>
 #include <mutex>
-#include "ThDeque.h"
-#include "Task.h"
-#include "BLock.h"
+#include "ThDeque.hpp"
+#include "Task.hpp"
+#include "BLock.hpp"
 
 // ==================================
 // Class JobCounter:  Auxiliary class

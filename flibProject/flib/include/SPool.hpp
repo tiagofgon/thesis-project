@@ -36,7 +36,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include "BkBarrier.h"
+#include "BkBarrier.hpp"
     
 class SPool
     {

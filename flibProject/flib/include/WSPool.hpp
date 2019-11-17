@@ -6,10 +6,10 @@
 // A thread pool class implementing work stealing
 // ------------------------------------------
 #include <iostream>
-#include <BkBarrier.h>
-#include <Task.h>
-#include <Timer.h>
-#include <WSDeque.h>
+#include <BkBarrier.hpp>
+#include <Task.hpp>
+#include <Timer.hpp>
+#include <WSDeque.hpp>
 #include <RandInt.h>
 #include <thread>
 #include <vector>

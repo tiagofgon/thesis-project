@@ -10,8 +10,8 @@
 //    descriptors of data items that must be read from file)
 // ---------------------------------------------------------------
 
-#include <InputList.h>
-#include <StringTokenizer.h>
+#include <InputList.hpp>
+#include <StringTokenizer.hpp>
 #include <list>
 #include <algorithm>
 #include <fstream>

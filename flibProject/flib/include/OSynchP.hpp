@@ -13,7 +13,7 @@
 #ifndef OMP_SYNCH_P
 #define OMP_SYNCH_P
 
-#include <OmpBLock.h>
+#include <OmpBLock.hpp>
 
 template <class T>
 class OSynchP

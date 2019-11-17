@@ -43,7 +43,7 @@
 #ifndef PIPE_BL_H
 #define PIPE_BL_H
 
-#include <BLock.h>
+#include <BLock.hpp>
 
 template <typename T>
 class PipeBL

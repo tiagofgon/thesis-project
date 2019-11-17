@@ -9,11 +9,11 @@
 #ifndef NPOOL_H
 #define NPOOL_H
 
-#include "ThDeque.h"
-#include "Task.h"
-#include "ThreadMgr.h"
-#include "JobMgr.h"
-#include "SafeCounter.h"
+#include "ThDeque.hpp"
+#include "Task.hpp"
+#include "ThreadMgr.hpp"
+#include "JobMgr.hpp"
+#include "SafeCounter.hpp"
 #include <map>
 
 // =========================================================

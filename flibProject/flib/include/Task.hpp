@@ -21,7 +21,7 @@
 #ifndef MYTASK_H
 #define MYTASK_H
 
-#include "BLock.h"
+#include "BLock.hpp"
 #include <mutex>
 #include <list>
 #include <functional>

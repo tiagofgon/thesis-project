@@ -14,7 +14,7 @@
  *  - "true" otherwise
  **************************************************/
 
-#include <BLock.h>
+#include <BLock.hpp>
 #include <iostream>
 #include <chrono>
 

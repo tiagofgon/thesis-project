@@ -6,7 +6,7 @@
  * Barrier.C
  * This file implements the Barrier class.
  * ---------------------------------------*/
-#include <Barrier.h>
+#include <Barrier.hpp>
 
 // Constructor
 // -----------

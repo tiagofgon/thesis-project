@@ -28,7 +28,7 @@
 #ifndef PIPETHQ_H
 #define PIPETHQ_H
 
-#include <ThQueue.h>
+#include <ThQueue.hpp>
 
 template <class T>
 class PipeThQ

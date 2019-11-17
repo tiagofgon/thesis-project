@@ -3,7 +3,7 @@
 # -------------------------------------------------------
 
 CPPFLAGS = -I include 
-CXXFLAGS = -O3 -g
+CXXFLAGS = -O3 -g -std=c++14
 
 ifdef INTEL_ENV
 CXX = icpc

@@ -10,12 +10,12 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.h>
-#include <Timer.h>
-#include <RandInt.h>
-#include <SafeCout.h>
-#include <SafeCounter.h>
-#include <CpuTimer.h>
+#include <NPool.hpp>
+#include <Timer.hpp>
+#include <RandInt.hpp>
+#include <SafeCout.hpp>
+#include <SafeCounter.hpp>
+#include <CpuTimer.hpp>
 #include <atomic>
 #include <memory>
 

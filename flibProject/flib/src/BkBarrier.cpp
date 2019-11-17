@@ -29,7 +29,7 @@
 // BlockBarrier.C
 // This file implements the Barrier class.
 // ---------------------------------------*/
-#include <BkBarrier.h>
+#include <BkBarrier.hpp>
 
 // Constructor
 // -----------

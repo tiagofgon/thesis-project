@@ -49,25 +49,25 @@ libvath.a: libvath.a(Task.o) libvath.a(ThreadMgr.o)
 libvath.a: libvath.a(InputList.o)
 libvath.a: clean
 
-libvath.a(BkBarrier.o): BkBarrier.o BkBarrier.h
+libvath.a(BkBarrier.o): BkBarrier.o BkBarrier.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(BLock.o): BLock.o BLock.h
+libvath.a(BLock.o): BLock.o BLock.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(NPool.o): NPool.o NPool.h
+libvath.a(NPool.o): NPool.o NPool.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(SPool.o): SPool.o SPool.h
+libvath.a(SPool.o): SPool.o SPool.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(InputList.o): InputList.o InputList.h
+libvath.a(InputList.o): InputList.o InputList.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(Task.o): Task.o Task.h
+libvath.a(Task.o): Task.o Task.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(ThreadMgr.o): ThreadMgr.o ThreadMgr.h
+libvath.a(ThreadMgr.o): ThreadMgr.o ThreadMgr.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
 #"""""""""""""""""""""""""""""""""""""""""""""

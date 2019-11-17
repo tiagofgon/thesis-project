@@ -29,7 +29,7 @@
 /* SPool.C
  * Implementation code for SPMD thread pool.
  ********************************************/
-#include "SPool.h"
+#include "SPool.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
