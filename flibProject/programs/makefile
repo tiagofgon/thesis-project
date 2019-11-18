@@ -2,7 +2,7 @@ VPATH = src
 
 EXECS =  tnp1 \
 		 fibonacci_async fibonacci_1 fibonacci_2 \
-		 heatnptfg feach
+		 heat feach
 
 #""""""""""""""""""""""""""""""""""""""""
 # Some variables concerning library paths
@@ -33,9 +33,9 @@ fibonacci_2: fibonacci_2.o
 	${CXX} -ofibonacci_2 fibonacci_2.o -pthread ${PATHV} ${LBASE} -lvath
 	rm fibonacci_2.o
 
-heatnptfg:  HeatNPtfg.o HeatAux.o
-	${CXX} -oheatnptfg HeatNPtfg.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 
-	rm HeatNPtfg.o
+heat:  heat.o HeatAux.o
+	${CXX} -oheat heat.o HeatAux.o ${PATHV} ${LBASE} -lvath -ltbb 
+	rm heat.o
 
 addvec:  AddVectors.o
 	${CXX} -oaddvec AddVectors.o ${PATHV} ${LBASE} -lvath 
