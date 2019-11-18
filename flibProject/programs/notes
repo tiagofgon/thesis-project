@@ -3,58 +3,19 @@ Somme indications for the execution examples
 
 All codes are portable.
 
-A - HEAT
 ********
--) Heat.C     (make heat) Sequential version
--) HeatNP.C   (make heatnp) Parallel version, using NPool thread pool
--) HeatNPa.C  (make heatnpa) Same as HeatNP.C, but using a custom, high
-              performance barrier
--) HeatTBB.C  (make heatbb) Parallel version, using TBB parallel_reduce
+-) fibonacci_async.cpp  Calcule fibonacci algorithm with a async from <future>
 
--) HeatOmp.C  (make heatomp) OpenMP code, macrotasking style - OpenMP macrotasking version, where the work distribution across tasks is done by hand.
+-) fibonacci_1.cpp      Calcule fibonacci algorithm with flib library. Values passed by reference
 
--) HeatF.C    (make heatf) OpenMP code, using parallel for (microtasking) - OpenMP microtasking version using parallel for , with the collapse(2) clause to enforce loop fusion, possible in this case.
+-) fibonacci_2.cpp      Calcule fibonacci algorithm with flib library using future features
 
-Additional versions, not discussed in book:
-------------------------------------------
--) HeatF2.C    (make heatf2) Same as HeatF.C, but now nested loops are
-               collapsed. Look at the source for details.
--) HeaTh.C     (make heath) Parallel version in macrotasking style, using
-               SPool and the standard barrier utility
--) HeatTh_T.C  (make heath_t) Same as Heath.C, but now a TBB implementation
-               of a high performance barrier is used. 
+-) Foreach.cpp          Program to test a big number of tasks
 
 
-B - SOR
-*******
--) Sor.C      (make sor) Sequential version
--) SorNP.C    (make sornp) Parallel version, using NPool thread pool
--) SorNPa.C   (make sornpa) Same as SorNP.C, but using a custom, high
-              performance barrier
--) SorTBB.C   (make sortbb) Parallel version, using TBB parallel_reduce
--) SorOmp.C   (make soromp) OpenMP code, macrotasking style
--) SorF.C     (make sorff) OpenMP code, using parallel for (microtasking)
 
-Additional versions, not discussed in book:
-------------------------------------------
--) SorF2.C    (make sorf2) Same as SorF.C, but now nested loops are
-              collapsed. Look at the source for details.
--) DSor.C     (make sord) Sequeantial code, but now the matrix is swapped
-              along diagonals, in preparation for an alternative way of
-              handling data dependencies.
--) DSorTbb.C  (make dsor_t) A diffferent way of handling data dependencies
-              in the parallel implementation
-
-
-C - Compiling and executing
+Compiling and executing
 ***************************
 
-To compile all OpenMP examples    :  make allomp
-To run all OpenMP examples        :  make runomp
-
-To compile all book examples (except OpenMP)      :  make all
-To run all book examples (except OpenMP)          :  make runall
-
-To compile all additional examples (except OpenMP)  :  make allx
-To run all additionsl (except OpenMP)               :  make runallx
+To compile all examples    :  make all
 

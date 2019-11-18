@@ -53,7 +53,10 @@ void fib(int num, int *soma){
    }
 
 int main(int argc, char *argv[]) {
-  
+   if(argc != 2) {
+      std::cout << "Please put one argumet as integer to calculate fibonacci" << std::endl;
+      return 1;
+   }
    bool status;
    int taskID;
    int nthreads=4;

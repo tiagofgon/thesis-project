@@ -1,8 +1,9 @@
-// AUTHOR: Victor Alessandrini, 2015
-// Example in book "Shared Memory Application
-// Programming"
+/* ---------------------------------------------------------------------------
+                           Made by Tiago Gonçalves - 2019
+ --------------------------------------------------------------------------*/
+
 // ******************************************
-// File Foreach.C
+// File Foreach.cpp
 //
 // This is an unbalanced map operation on a vector
 // container of doubles.
@@ -67,32 +68,6 @@ void Replace(int n)
       }while( fabs(x-d)>eps );
    V[n] = x;
    }
-
-// New: a class for the NPool computation
-// --------------------------------------
-// class ReplaceTask : public Task
-//    {
-//    private:
-//     int n;
-
-//    public:
-//     ReplaceTask (int nn) : n(nn) {}
-
-//     void ExecuteTask()
-//        {
-//        Rand R(999 * SC.Next());
-//        double x;
-//        double eps = precision(n);
-//        double d = V[n];
-//        do
-//           {
-//           x = R.draw();
-//           }while( fabs(x-d)>eps );
-//        V[n] = x;
-//        } 
-//    };
-
-
 
 
 

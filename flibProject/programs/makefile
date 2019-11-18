@@ -1,12 +1,8 @@
 VPATH = src
 
-EXECS =  tnp1 tnp2 \
-		 fibonacci_async fibonacci3 \
-		 heatnptfg
-
-EXECS_X =  heath  heath_t  dsor dsortbb
-
-EXECSOMP = heatf heatf2 heatomp  sorf sorf2 soromp
+EXECS =  tnp1 \
+		 fibonacci_async fibonacci_1 fibonacci_2 \
+		 heatnptfg feach
 
 #""""""""""""""""""""""""""""""""""""""""
 # Some variables concerning library paths
@@ -24,10 +20,6 @@ include makefile-compiler
 tnp1:   TNPool1.o
 	${CXX} -otnp1 TNPool1.o ${PATHV} ${LBASE} -lvath 
 	rm TNPool1.o
-
-tnp2:   TNPool2.o
-	${CXX} -otnp2 TNPool2.o ${PATHV} ${LBASE} -lvath
-	rm TNPool2.o
 
 fibonacci_async: fibonacci_async.o
 	${CXX} -ofibonacci_async fibonacci_async.o ${PATHV} ${LBASE} -lvath
@@ -59,10 +51,8 @@ feach:  Foreach.o
 # execution
 # """"""""""""""""""""""""""""""""""
 clean:
-	rm -f ${EXECS} ${EXECS_X} ${EXECSOMP}
+	rm -f ${EXECS}
 	rm *.o
 
 all:    ${EXECS}
-allx:    ${EXECS_X}
-allomp: ${EXECSOMP}
 

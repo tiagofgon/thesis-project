@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------
-
+                           Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
 
-// NPool.h 
+// NPool.hpp
 // -------
 // Master class for the NPool thread pool utility
 // *********************************************
@@ -15,26 +15,13 @@
 #include "JobMgr.hpp"
 #include "SafeCounter.hpp"
 #include <map>
+#include <vector>
 
 // =========================================================
-// Class NPool1 implements very basic features:
+// Class NPool implements new features:
 //
-// Launching and joining worker threads with the ThreadMgr
-// class
-
-// Testing the submission of successive lists of tasks, to
-// validate the operation of the task queue. This version 
-// must validate the most basic job submission and execution 
-// mechanism adopted in this software.
-//
-// NO Job buffering
-// NO Job monitoring
-// NO spawned tasks
-// NO taskwait
-// NO wait for job
-// NO wait for idle
-//
-
+// - Smart Pointers
+// - Deque of tasks for each thread, not only one deque for all threads
 // =========================================================
 
 class NPool
@@ -49,11 +36,9 @@ class NPool
    int      last_key;          // tracks keys in the map container
 
    ThDeque<TaskGroup*>     *QJob;    // reference to internal job queue
-   //ThDeque<Task*>          *QTask;   // reference to internal task queue
    ThDeque<Task*>          **QTaskArray;   // Array of references to internal task queues
-   ThreadMgr               *TM;      // managment of thread-task mapping
+   std::unique_ptr<ThreadMgr> TM;
    JobCounter              JC;       // counts running jobs
-   //std::map<int, JobMgr*>  M;        // makagement of task groups
    std::map<int, std::shared_ptr<JobMgr>>  M;        // makagement of task groups
 
    // pool synchronization 

@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------------
-    Made by Tiago Gonçalves
+                           Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
 
-// Task.h
+// Task.hpp
 //
 // This class is part of the NPool utility. The Task class 
 // describes a task. 
@@ -16,6 +16,15 @@
 // - number of child tasks to this task
 // - bool that informs if a parent task is waiting for this 
 //   one   
+
+// New features:
+// - Eliminates task hierarchy
+// - taskFunction wich store the task function to execute in the NPool
+// - make_task member function: receives as argument a template function and their arguments. 
+//   Return a packaged_task with the function and their arguments wrapped
+// - insertTask member function: This function, called on user program,
+//   receives as argument a template function and their arguments. With make_task member function
+//   create a task and return a future connected to that task.
 // *********************************************************
 
 #ifndef MYTASK_H
@@ -23,18 +32,10 @@
 
 #include "BLock.hpp"
 #include <mutex>
-#include <list>
-#include <functional>
 #include <future>
-#include <queue>
-
+#include <list>
 #include <cstdint>
 #include <future>
-#include <vector>
-#include <queue>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
 #include <functional>
 
 class Task {
@@ -59,8 +60,6 @@ class Task {
     Task();            // constructor
 
     ~Task();   // destructor                
-
-    //virtual void ExecuteTask() = 0;    // interface
     
     void IncreaseRefcount();           // increases my refcount
     void DecreaseRefcount();           // decreases parent refcount
@@ -84,8 +83,6 @@ class Task {
     BLock *GetBLock();
     void ResetBLock(); 
 
-
-
     // custom task factory
     template <typename Func, typename ... Args,
         typename Rtrn=typename std::result_of<Func(Args...)>::type>
@@ -98,8 +95,6 @@ class Task {
  
         return std::packaged_task<Rtrn(void)>(aux);
     }
-
-
 
     template <
         typename     Func,
@@ -123,8 +118,7 @@ class Task {
                 task_ptr->operator()();
             };
 
-            // append the task to the queue
-            //tasks.emplace(payload);
+            // append the task to taskFunction
             taskFunction=std::move(payload);
         
 

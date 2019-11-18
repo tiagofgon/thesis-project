@@ -1,3 +1,3 @@
-- **NpoolPrograms**: Task-centric oriented programs
+- **flib**: Source code of flib library 
 
-- **SpoolPrograms**: Thread-centric oriented programs
+- **programs**: Some exemples that use the flib library in order to paralelize programs

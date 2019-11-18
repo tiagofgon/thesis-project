@@ -1,7 +1,8 @@
 /* ---------------------------------------------------------------------------
-   Made by Tiago Gonçalves
+                           Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
-// Task.C
+
+// Task.cpp
 // -----------------------------------------------------------
 
 #include "Task.hpp"
@@ -9,7 +10,6 @@
 #include <functional>
 #include <future>
 #include <queue>
-
 
 
 // -----------------------------------------------------------
@@ -32,7 +32,6 @@ Task:: ~Task()   // destructor
    {
    delete BL;
    }                
-
 
 
 void Task::IncreaseRefcount()
