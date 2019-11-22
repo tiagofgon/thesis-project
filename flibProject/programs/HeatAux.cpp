@@ -3,7 +3,7 @@
 // Programming"
 // ******************************************
 //
-// File HeatAux.C
+// File HeatAux.cpp
 //
 // This module collects a numer of auxiliary functions used
 // in all the implementations of the Heat code

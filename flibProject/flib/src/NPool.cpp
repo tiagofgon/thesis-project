@@ -56,9 +56,9 @@ NPool::NPool(int nTh, int nMax)
    // --------------------------
    QJob  = new ThDeque<TaskGroup*>();
 
-   QTaskArray = new ThDeque<Task*> *[nThreads+1];
+   QTaskArray = new ThDequeThread<Task*> *[nThreads+1];
    for(int n=1; n<=nThreads; n++) {
-      QTaskArray[n] = new ThDeque<Task*>();
+      QTaskArray[n] = new ThDequeThread<Task*>();
    }
    
    // Allocate ThreadManager with make_unique
@@ -305,16 +305,35 @@ void NPool::WaitForIdle()
 void NPool::TPool_Thread(int n)
    {
    int rank, key;
-   bool state;
+   bool state, flag=false;
    Task* T, *my_parent;
    rank=n;
 
    for(;;) // Here we start an infinite loop
       {
+
+      bool estado=true;
+      while(estado){
+         if(QTaskArray[rank]->GetSize()==0){
+            for(int i=1; i<= nThreads; i++) {
+               T = QTaskArray[i]->ThDequeThread::TryRemoveBack(flag);               
+               if(flag==true) {
+                  QTaskArray[rank]->Add(T);
+                  break;
+               }
+            }
+            estado = QTaskArray[rank]->getState();
+            //std::cout << "estado: " << estado << std::endl;
+         }
+         else{
+            estado=false;
+         }
+      }
       
       T = QTaskArray[rank]->Remove(state);      // read task address 
   
       if(state==false) break;
+      //std::cout << "rank= " << rank << std::endl;
 
       // -------------------------------------------
       // Set up the data items needed to manage the

@@ -1,8 +1,8 @@
-// AUTHOR: Victor Alessandrini, 2015
-// Example in book "Shared Memory Application
-// Programming"
-// ******************************************
-// File HeatNP.C
+/* ---------------------------------------------------------------------------
+                           Made by Tiago Gonçalves - 2019
+ --------------------------------------------------------------------------*/
+
+// File HeatNP.cpp
 // -----------
 // Macrotasking code, using the NPool pool
 // ---------------------------------------

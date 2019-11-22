@@ -2,7 +2,7 @@ VPATH = src
 
 EXECS =  tnp1 \
 		 fibonacci_async fibonacci_1 fibonacci_2 \
-		 heat feach
+		 heat feach spawn1 spawn2 spawn3
 
 #""""""""""""""""""""""""""""""""""""""""
 # Some variables concerning library paths
@@ -45,6 +45,17 @@ feach:  Foreach.o
 	${CXX} -ofeach Foreach.o ${PATHV} ${LBASE} -lvath
 	rm Foreach.o
 
+spawn1:  Spawn1.o
+	${CXX} -ospawn1 Spawn1.o ${PATHV} ${LBASE} -lvath
+	rm Spawn1.o
+
+spawn2:  Spawn2.o
+	${CXX} -ospawn2 Spawn2.o ${PATHV} ${LBASE} -lvath
+	rm Spawn2.o
+
+spawn3:  Spawn3.o
+	${CXX} -ospawn3 Spawn3.o ${PATHV} ${LBASE} -lvath
+	rm Spawn3.o
 
 #"""""""""""""""""""""""""""""""""""
 # Subsidiary targets, including test

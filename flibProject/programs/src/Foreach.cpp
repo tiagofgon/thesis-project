@@ -89,7 +89,7 @@ int main(int argc, char **argv)
       scale = atoi(argv[2]);
       }
    p_final = p_initial * scale;
-   N = 100000;
+   N = 1000000;
    nTh = 4;
 
 

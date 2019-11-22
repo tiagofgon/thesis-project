@@ -10,6 +10,7 @@
 #define NPOOL_H
 
 #include "ThDeque.hpp"
+#include "ThDequeThread.hpp"
 #include "Task.hpp"
 #include "ThreadMgr.hpp"
 #include "JobMgr.hpp"
@@ -36,7 +37,7 @@ class NPool
    int      last_key;          // tracks keys in the map container
 
    ThDeque<TaskGroup*>     *QJob;    // reference to internal job queue
-   ThDeque<Task*>          **QTaskArray;   // Array of references to internal task queues
+   ThDequeThread<Task*>          **QTaskArray;   // Array of references to internal task queues
    std::unique_ptr<ThreadMgr> TM;
    JobCounter              JC;       // counts running jobs
    std::map<int, std::shared_ptr<JobMgr>>  M;        // makagement of task groups
