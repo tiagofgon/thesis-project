@@ -28,7 +28,7 @@
  --------------------------------------------------------------------------*/
 
 // ThreadMgr.h
-// Internal class in NPool utility
+// Internal class in TaskCentricPool utility
 // 
 // Thread managment class. Member functions are called by 
 // worker threads. 

@@ -1,38 +1,14 @@
 /* ---------------------------------------------------------------------------
-    Copyright 2014-2015 Victor Alessandrini.  All Rights Reserved.
-
-    This file is part of the software support provided wih the book
-    "Shared Mamory Application Programming".
-
-    This code is free software; you can redistribute it and/or modify it under 
-    the terms of the GNU General Public License version 2 as published by 
-    the Free Software Foundation.
-
-    This software is distributed in the hope that it will be useful, but 
-    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License 
-    for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Threading Building Blocks; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-    As a special exception, you may use this file as part of a free software
-    library without restriction.  Specifically, if other files instantiate
-    templates or use macros or inline functions from this file, or you compile
-    this file and link it with other files to produce an executable, this
-    file does not by itself cause the resulting executable to be covered by
-    the GNU General Public License.  This exception does not however
-    invalidate any other reasons why the executable file might be covered by
-    the GNU General Public License.
+                           Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
-/* SPool.C
+/* ThreadCentricPool.C
  * Implementation code for SPMD thread pool.
  ********************************************/
-#include "SPool.hpp"
+#include "ThreadCentricPool.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <utility>      // std::pair
 #include <iostream>
 
 using namespace std;
@@ -46,7 +22,7 @@ using namespace std;
 
 void threadFunc(void *P)
    {
-   SPool *tp = (SPool *)P;
+   ThreadCentricPool *tp = (ThreadCentricPool *)P;
    tp->PeerThread();  // call member function in pool
    }
 
@@ -55,7 +31,7 @@ void threadFunc(void *P)
 // Constructor and destructor
 // **************************
 
-SPool::SPool(int nTh, double stksize)
+ThreadCentricPool::ThreadCentricPool(int nTh, double stksize)
    {
    int n;
 
@@ -82,7 +58,7 @@ SPool::SPool(int nTh, double stksize)
       }
    }
 
-SPool::~SPool()
+ThreadCentricPool::~ThreadCentricPool()
    {
    if(shut==false) JoinThreads();
 
@@ -96,7 +72,7 @@ SPool::~SPool()
 // ----------------------------------------------
 // Function executed by the internal peer threads
 // ----------------------------------------------
-void SPool::PeerThread()
+void ThreadCentricPool::PeerThread()
    {
    int rank = GetRank();
    bool my_shut;
@@ -121,7 +97,7 @@ void SPool::PeerThread()
 // --------------------------------------------------
 // Function called by manager thread to dispatch work
 // --------------------------------------------------
-void SPool::Dispatch(void (*funct)(void*), void *argm)
+void ThreadCentricPool::Dispatch(void (*funct)(void*), void *argm)
    {
    BlBarrier->WaitForIdle();
 
@@ -138,7 +114,7 @@ void SPool::Dispatch(void (*funct)(void*), void *argm)
    }
 
 
-void SPool::WaitForIdle()
+void ThreadCentricPool::WaitForIdle()
    {
    BlBarrier->WaitForIdle();
    }
@@ -149,7 +125,7 @@ void SPool::WaitForIdle()
 // This is important to distribute work among worker thread.
 // Ranks are in [1, nTh].
 // ------------------------------------------------------------
-int SPool::GetRank()
+int ThreadCentricPool::GetRank()
    {
    std::thread::id my_id; 
    int n, my_rank;
@@ -178,7 +154,57 @@ int SPool::GetRank()
 // Ranges are [beg, end) : for integers, end is index 
 // to past the last end element
 // -----------------------------------------------
-void SPool::ThreadRange(int& Beg, int& End)
+// void ThreadCentricPool::ThreadRange(int& Beg, int& End)
+//    {
+//    int n, rank, beg, end;
+//    int size, D, R;
+//    rank = GetRank();
+
+//    size = End-Beg;
+//    D = (size/nThreads);
+//    R = size%nThreads;
+
+//    end = Beg;
+//    for(n=1; n<=rank; n++)
+//       {
+//       beg = end;
+//       end = beg+D;
+//       if(R)
+//          {
+//          end++;
+//          R--;
+//          }
+//       }
+//    Beg = beg;
+//    End = end;
+//    }
+
+std::pair<int,int> ThreadCentricPool::schedule_static(int Beg, int End) {
+   int n, rank, beg, end;
+   int size, D, R;
+   rank = GetRank();
+
+   size = End-Beg;
+   D = (size/nThreads);
+   R = size%nThreads;
+
+   end = Beg;
+   for(n=1; n<=rank; n++)
+      {
+      beg = end;
+      end = beg+D;
+      if(R)
+         {
+         end++;
+         R--;
+         }
+      }
+   Beg = beg;
+   End = end;
+   return std::make_pair (Beg,End);
+}
+
+std::pair<int,int> ThreadCentricPool::schedule_dynamic(int Beg, int End)
    {
    int n, rank, beg, end;
    int size, D, R;
@@ -201,30 +227,57 @@ void SPool::ThreadRange(int& Beg, int& End)
       }
    Beg = beg;
    End = end;
+   return std::make_pair (Beg,End);
    }
 
-void SPool::ThreadRange(double& Beg, double& End)
+std::pair<int,int> ThreadCentricPool::schedule_guided(int Beg, int End)
    {
-   int rank;
-   double beg, end;
-   double size, D;
-
+   int n, rank, beg, end;
+   int size, D, R;
    rank = GetRank();
+
    size = End-Beg;
-   D = size/nThreads;
-   beg = Beg + (rank-1)*D;
-   end = Beg + rank*D;
-   
+   D = (size/nThreads);
+   R = size%nThreads;
+
+   end = Beg;
+   for(n=1; n<=rank; n++)
+      {
+      beg = end;
+      end = beg+D;
+      if(R)
+         {
+         end++;
+         R--;
+         }
+      }
    Beg = beg;
    End = end;
+   return std::make_pair (Beg,End);
    }
+
+// void ThreadCentricPool::ThreadRange(double& Beg, double& End)
+//    {
+//    int rank;
+//    double beg, end;
+//    double size, D;
+
+//    rank = GetRank();
+//    size = End-Beg;
+//    D = size/nThreads;
+//    beg = Beg + (rank-1)*D;
+//    end = Beg + rank*D;
+   
+//    Beg = beg;
+//    End = end;
+//    }
 
 // -------------------------------------------
 // This function is called by one of the worker
 // threads to cancel all the other workers in
 // the team
 // --------------------------------------------
-void SPool::CancelTeam()
+void ThreadCentricPool::CancelTeam()
    {
    std::cout << "\n Cancellation not yet implemented on C++11 on Linux"
              << std::endl;
@@ -240,7 +293,7 @@ void SPool::CancelTeam()
    */
    }
 
-void SPool::SetCancellationPoint()
+void ThreadCentricPool::SetCancellationPoint()
    {
    std::cout << "\n Cancellation not yet implemented on C++11 on Linux"
              << std::endl;
@@ -251,7 +304,7 @@ void SPool::SetCancellationPoint()
    }
 
 
-void SPool::JoinThreads()
+void ThreadCentricPool::JoinThreads()
    {
    // set the shut flag
    // ------------------

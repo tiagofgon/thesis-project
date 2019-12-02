@@ -2,12 +2,12 @@
                            Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
 
-// NPool.cpp
-// Master class for NPool utility
+// TaskCentricPool.cpp
+// Master class for TaskCentricPool utility
 // =========================================================
 
 #include <stdlib.h>
-#include "NPool.hpp"
+#include "TaskCentricPool.hpp"
 #include "Task.hpp"
 #include "ThreadMgr.hpp"
 #include <iostream>
@@ -15,26 +15,26 @@
 // ***************< THREAD FUNCTION >**********************
 // This function is the thread function that will be passed 
 // to pthreads_create. IT IS NOT a member function of the 
-// NPool class. It calls the "true" thread function that 
+// TaskCentricPool class. It calls the "true" thread function that 
 // will be performed by the threads, and which is a member
-// function of the NPool class (so that it can access its
+// function of the TaskCentricPool class (so that it can access its
 // internal data items).
 //
 // This function receives as argument the address of the
-// NPool object that implements the thread pool and an integer that
+// TaskCentricPool object that implements the thread pool and an integer that
 // represents the id of the owner thread on the pool.
 // -------------------------------------------------------
 
 void ThreadFunction(void *arg, int n)
    {
       
-   NPool *NP;
-   NP = (NPool *)arg;      // get reference to Thread Pool
+   TaskCentricPool *NP;
+   NP = (TaskCentricPool *)arg;      // get reference to Thread Pool
    NP->TPool_Thread(n);     // call ThPool internal member function
    }
 
 // ============
-// Class NPool 
+// Class TaskCentricPool 
 // ============
 
 
@@ -43,7 +43,7 @@ void ThreadFunction(void *arg, int n)
 // - Deque of tasks for each thread, not only one deque for all threads
 // - ThreadManager as smart pointer (unique_pointer)
 // ----------------------
-NPool::NPool(int nTh, int nMax)
+TaskCentricPool::TaskCentricPool(int nTh, int nMax)
    {
    // initialize the fields, copying the input parameters 
    // --------------------------------------------------
@@ -70,7 +70,7 @@ NPool::NPool(int nTh, int nMax)
 // Destructor
 // - Delete the threadManager smart pointer with reset
 // ----------------------
-NPool::~NPool() 
+TaskCentricPool::~TaskCentricPool() 
     {
    for(int n=1; n<=nThreads; n++){
       QTaskArray[n]->CloseQueue();
@@ -103,7 +103,7 @@ NPool::~NPool()
 // FlushJobQueue()
 // THIS FUNCTION IS CALLED WITH LOCKED POOL MUTEX
 // ----------------------------------------------
-bool NPool::FlushJobQueue()
+bool TaskCentricPool::FlushJobQueue()
    {
    bool state;
    TaskGroup *tg = QJob->TryRemoveFront(state);
@@ -111,7 +111,7 @@ bool NPool::FlushJobQueue()
    return state;
    }
 
-void NPool::FlushTasks(TaskGroup *tg)
+void TaskCentricPool::FlushTasks(TaskGroup *tg)
    {
    int rank = TM->GetRank();	     
    std::list<Task*>::iterator pos;
@@ -129,7 +129,7 @@ void NPool::FlushTasks(TaskGroup *tg)
 // -------------------------------------------------
 // Submit a sequential job composed of a single task
 // -------------------------------------------------
-int NPool::SubmitJob(Task *T)
+int TaskCentricPool::SubmitJob(Task *T)
    {
    bool flushflag;
    int rank = TM->GetRank();
@@ -160,7 +160,7 @@ int NPool::SubmitJob(Task *T)
 // ----------------------------------------------
 // Submit a job composed of a group of tasks
 // ----------------------------------------------
-int NPool::SubmitJob(TaskGroup *TG)
+int TaskCentricPool::SubmitJob(TaskGroup *TG)
    {
    bool flushflag;
    int rank = TM->GetRank(); 
@@ -221,7 +221,7 @@ int NPool::SubmitJob(TaskGroup *TG)
 // O if no action taken because queue is closed
 // 1 if success
 // ----------------------------------------------------------  
-int NPool::SpawnTask(Task *tg, bool iswaited)
+int TaskCentricPool::SpawnTask(Task *tg, bool iswaited)
    {
    int key;
    if(iswaited==false) tg->SetWaited(false);
@@ -267,7 +267,7 @@ int NPool::SpawnTask(Task *tg, bool iswaited)
 // Stops worker threads, by closing the
 // task queue
 // ------------------------------------   
-void NPool::ClosePool()
+void TaskCentricPool::ClosePool()
    {
    for(int n=1; n<=nThreads; n++) {
       QTaskArray[n]->CloseQueue();
@@ -277,7 +277,7 @@ void NPool::ClosePool()
 // --------------------------------
 // Returns ID rank of caller thread
 // --------------------------------
-int NPool::GetThreadRank()
+int TaskCentricPool::GetThreadRank()
    {
    int rank = TM->GetRank();
    return rank;
@@ -290,7 +290,7 @@ int NPool::GetThreadRank()
 // to wait for an "idle" state, making sure that all the 
 // work requests have been serviced.
 // -------------------------------------------------------
-void NPool::WaitForIdle()
+void TaskCentricPool::WaitForIdle()
    {
    BLock *bl = JC.GetIdleBLock();
    bl->Wait_Until(true, 0L);
@@ -302,7 +302,7 @@ void NPool::WaitForIdle()
 // This is the startup routine executed by 
 // all worker threads.
 // ---------------------------------------   
-void NPool::TPool_Thread(int n)
+void TaskCentricPool::TPool_Thread(int n)
    {
    int rank, key;
    bool state, flag=false;
@@ -392,7 +392,7 @@ void NPool::TPool_Thread(int n)
 // involved in the job (in the case of nested jobs)
 // ----------------------------------------------------
 
-bool NPool::JobStatus(int key)
+bool TaskCentricPool::JobStatus(int key)
    {
    bool retval;
    std::shared_ptr<JobMgr> JM = M[key];
@@ -412,7 +412,7 @@ bool NPool::JobStatus(int key)
 // to the pool, or by a worker thread in the pool not
 // involved in the job (in the case of nested jobs)
 // ----------------------------------------------------
-void NPool::WaitForJob(int key)
+void TaskCentricPool::WaitForJob(int key)
    {
    if(key==0)
       {
@@ -434,7 +434,7 @@ void NPool::WaitForJob(int key)
 // Called by a worker thread before a 
 // TaskWait is engaged
 // ------------------------------------
-int NPool::SuspendAndRunTask()
+int TaskCentricPool::SuspendAndRunTask()
    {
    Task *T, *my_parent, *save_task;
    int key;
@@ -491,7 +491,7 @@ int NPool::SuspendAndRunTask()
 // we are sure that children are executed, and the 
 // system does not deadlock
 // ----------------------------------------------------
-void NPool::TaskWait()
+void TaskCentricPool::TaskWait()
    {
 	int retval;
    do
@@ -506,7 +506,7 @@ void NPool::TaskWait()
    //std::cout << "\n Taskwait: returning from wait" << std::endl;
    } 
 
-void NPool::CheckMapping()
+void TaskCentricPool::CheckMapping()
     {
     int n;
 	std::lock_guard<std::mutex> lock(poolMutex);

@@ -4,7 +4,7 @@
 
 // Task.hpp
 //
-// This class is part of the NPool utility. The Task class 
+// This class is part of the TaskCentricPool utility. The Task class 
 // describes a task. 
 //
 // Task objects carry a lot of information:
@@ -19,7 +19,7 @@
 
 // New features:
 // - Eliminates task hierarchy
-// - taskFunction wich store the task function to execute in the NPool
+// - taskFunction wich store the task function to execute in the TaskCentricPool
 // - make_task member function: receives as argument a template function and their arguments. 
 //   Return a packaged_task with the function and their arguments wrapped
 // - insertTask member function: This function, called on user program,

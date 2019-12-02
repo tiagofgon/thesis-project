@@ -2,15 +2,15 @@
 // Example in book "Shared Memory Application
 // Programming"
 // ******************************************
-// File NPool1.C
+// File TaskCentricPool.C
 // -------------
-// Tests the very general features of the NPool facility,
+// Tests the very general features of the TaskCentricPool facility,
 // including job status information. 
 // ------------------------------------------------------
 
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 #include <Timer.hpp>
 #include <RandInt.hpp>
 #include <SafeCout.hpp>
@@ -24,7 +24,7 @@
 
 using namespace std;
 
-NPool *NP;
+TaskCentricPool *NP;
 
 
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
    CpuTimer TR;   
    int numero(atoi(argv[1]));
 
-   NP = new NPool(nthreads);
+   NP = new TaskCentricPool(nthreads);
    
    TaskGroup *TG = new TaskGroup();
    Task *t = new Task();

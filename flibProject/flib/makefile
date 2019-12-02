@@ -1,16 +1,16 @@
-# This makefile builds the C++14, implementation of the "flib" library
+# This makefile builds the C++14, implementation of the "libflib" library
 #
 # ============================================================
 
 VPATH = src include 
 
-OBJECTS = BLock.o BkBarrier.o InputList.o NPool.o  SPool.o  ThreadMgr.o  Task.o 
+OBJECTS = BLock.o BkBarrier.o InputList.o TaskCentricPool.o  ThreadCentricPool.o  ThreadMgr.o  Task.o 
 
 #"""""""""""""""""""""""""""""""""""""""""""""""
 # Variables concerning include and library paths
 # """"""""""""""""""""""""""""""""""""""""""""""
-PATHVA = ../flib/ 
-CPPFLAGS = -I include -I ../flib/include 
+PATHVA = ../libflib/ 
+CPPFLAGS = -I include -I ../libflib/include 
 
 
 ifdef INTEL_ENV
@@ -39,44 +39,44 @@ endif
 LBASE = -lpthread
 
 #""""""""""""""""""""""""""""""""""""""""""""""""""""
-# This part deals with the static library libvath
+# This part deals with the static library libflib
 # """""""""""""""""""""""""""""""""""""""""""""""""""
 
-libva:  libvath.a
-libvath.a: libvath.a(BLock.o) libvath.a(SPool.o)
-libvath.a: libvath.a(NPool.o) libvath.a(BkBarrier.o) 
-libvath.a: libvath.a(Task.o) libvath.a(ThreadMgr.o)
-libvath.a: libvath.a(InputList.o)
-libvath.a: clean
+libva:  libflib.a
+libflib.a: libflib.a(BLock.o) libflib.a(ThreadCentricPool.o)
+libflib.a: libflib.a(TaskCentricPool.o) libflib.a(BkBarrier.o) 
+libflib.a: libflib.a(Task.o) libflib.a(ThreadMgr.o)
+libflib.a: libflib.a(InputList.o)
+libflib.a: clean
 
-libvath.a(BkBarrier.o): BkBarrier.o BkBarrier.hpp
+libflib.a(BkBarrier.o): BkBarrier.o BkBarrier.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(BLock.o): BLock.o BLock.hpp
+libflib.a(BLock.o): BLock.o BLock.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(NPool.o): NPool.o NPool.hpp
+libflib.a(TaskCentricPool.o): TaskCentricPool.o TaskCentricPool.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(SPool.o): SPool.o SPool.hpp
+libflib.a(ThreadCentricPool.o): ThreadCentricPool.o ThreadCentricPool.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(InputList.o): InputList.o InputList.hpp
+libflib.a(InputList.o): InputList.o InputList.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(Task.o): Task.o Task.hpp
+libflib.a(Task.o): Task.o Task.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
-libvath.a(ThreadMgr.o): ThreadMgr.o ThreadMgr.hpp
+libflib.a(ThreadMgr.o): ThreadMgr.o ThreadMgr.hpp
 	$(AR) $(ARFLAGS) $@ $<
 
 #"""""""""""""""""""""""""""""""""""""""""""""
 # This part deals with the dynamic libraries 
-# libvath.so and libvamic.so
+# libflib.so and libvamic.so
 # """"""""""""""""""""""""""""""""""""""""""""
 
-libvath.so:  ${OBJECTS}
-	${CXX} -o libvath.so -shared -fPIC ${OBJECTS}
+libflib.so:  ${OBJECTS}
+	${CXX} -o libflib.so -shared -fPIC ${OBJECTS}
 
 libvamic.so:  ${OBJECTS}
 	${CXX} -mmic -o libvamic.so -shared -fPIC ${OBJECTS}

@@ -41,13 +41,13 @@
 // ***************< THREAD FUNCTION >**********************
 // This function is the thread function that will be passed 
 // to pthreads_create. IT IS NOT a member function of the 
-// NPool class. It calls the "true" thread function that 
+// TaskCentricPool class. It calls the "true" thread function that 
 // will be performed by the threads, and which is a member
-// function of the NPool class (so that it can access its
+// function of the TaskCentricPool class (so that it can access its
 // internal data items).
 //
 // This function receives as argument the address of the
-// NPool object that implements the thread pool.
+// TaskCentricPool object that implements the thread pool.
 // -------------------------------------------------------
 
 extern void ThreadFunction(void *arg, int n);

@@ -7,14 +7,14 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 
 #include <future>
 
 
 using namespace std;
 
-NPool *NP;
+TaskCentricPool *NP;
 
 // -----------------------------------------
 // Auxiliary function, to print a job status
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   int taskID[6];
   int jobID1;
 
-  NPool NP2(31);
+  TaskCentricPool NP2(31);
 
    std::vector<std::future<uint64_t>> futures;
 

@@ -23,19 +23,19 @@
 // wait, and there are no other threads in the pool to dequeue and execute 
 // them.
 //
-// Because of the task suspension mechanism implemented in NPool - as well
+// Because of the task suspension mechanism implemented in TaskCentricPool - as well
 // as in OpenMP or TB - this code runs correctly on 2 threads.
 // **********************************************************************
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 #include <Timer.hpp>
 #include <RandInt.hpp>
 
 using namespace std;
 
 RandInt  R(2000);     // generates random integers in [0, 2000]
-NPool    *NP;         // reference to ThPool
+TaskCentricPool    *NP;         // reference to ThPool
 int      Nth;         // number of threads in the pool
 
 // -----------------------------------------------
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
    if(argc==2) Nth = atoi(argv[1]);
    else Nth = 4;
 
-   NP = new NPool(Nth, 20);
+   NP = new TaskCentricPool(Nth, 20);
 
    // Build a Nth task job, and submit job
    // ------------------------------------

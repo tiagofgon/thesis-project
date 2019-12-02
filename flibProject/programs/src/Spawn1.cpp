@@ -4,7 +4,7 @@
 // ******************************************
 // File Spawn1.C
 //
-// Testing features of the thread pool NPool facility,
+// Testing features of the thread pool TaskCentricPool facility,
 // 
 // This example shows how launch a child task, and wait 
 // for its termination.
@@ -25,7 +25,7 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 #include <Timer.hpp>
 #include <RandInt.hpp>
 #include <Barrier.hpp>
@@ -33,7 +33,7 @@
 using namespace std;
 
 RandInt  R(2000);     // generates random integers in [0, 2000]
-NPool    *NP;         // reference to ThPool
+TaskCentricPool    *NP;         // reference to ThPool
 Barrier  *B;          // reference to Barrier
 int      Nth;         // number of threads in the pool
 
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
    if(argc==2) Nth = atoi(argv[1]);
    else Nth = 4;
 
-   NP = new NPool(Nth, 20);
+   NP = new TaskCentricPool(Nth, 20);
 
    // Build the main task, and submit job
    // ------------------------------------

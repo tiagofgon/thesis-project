@@ -4,17 +4,17 @@
 
 // File HeatNP.cpp
 // -----------
-// Macrotasking code, using the NPool pool
+// Macrotasking code, using the TaskCentricPool pool
 // ---------------------------------------
 #include <CpuTimer.hpp>
-#include <NPool.hpp>        
+#include <TaskCentricPool.hpp>        
 #include <math.h>        
 #include <TBarrier.hpp> 
 #include <Reduction.hpp>  
 
 // Global variables
 // -----------------
-NPool             *TP;
+TaskCentricPool             *TP;
 TBarrier        *B;
 Reduction<double> R;
 bool              moreCycles;
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
    InitJob(M, N);
    if(argc==2) nThreads = atoi(argv[1]);
 
-   TP = new NPool(nThreads);
+   TP = new TaskCentricPool(nThreads);
    B  = new TBarrier(nThreads);
 
 

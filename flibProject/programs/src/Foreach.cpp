@@ -35,7 +35,7 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 #include <CpuTimer.hpp>
 #include <SafeCounter.hpp>
 
@@ -48,7 +48,7 @@ int  N;
 double p_initial, p_final;  // initial and final precisions
 std::vector<double> V;
 SafeCounter SC;
-NPool       *TP;
+TaskCentricPool       *TP;
 
 double precision(int n)
    {
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
       }
    p_final = p_initial * scale;
    N = 1000000;
-   nTh = 4;
+   nTh = 1;
 
 
    auto replaceTask = [](int n) {
@@ -109,18 +109,18 @@ int main(int argc, char **argv)
    // Initializations: vector target, pool
    // --------------------------------------
    for(int n=0; n<N; ++n) V.push_back(rd.draw() );
-   TP = new NPool(nTh);
+   TP = new TaskCentricPool(nTh);
 
    // First, sequential computation
    // -----------------------------
-   T.Start();
-   for(n=0; n<N; ++n) Replace(n);
-   T.Stop();
-   T.Report();
-   cout << "\nAfter sequential : vector components 0, N/2, (N-1):\n"
-        << V[0] << "       " << V[N/2] << "       " << V[N-1] << endl;
+   // T.Start();
+   // for(n=0; n<N; ++n) Replace(n);
+   // T.Stop();
+   // T.Report();
+   // cout << "\nAfter sequential : vector components 0, N/2, (N-1):\n"
+   //      << V[0] << "       " << V[N/2] << "       " << V[N-1] << endl;
 
-   // Next, NPool computation
+   // Next, TaskCentricPool computation
    // Construct first a huge TaskGroup encapsulating
    // all the tasks
    // ----------------------------------------------

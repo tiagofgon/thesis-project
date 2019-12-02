@@ -2,12 +2,12 @@
                            Made by Tiago Gonçalves - 2019
  --------------------------------------------------------------------------*/
 
-// NPool.hpp
+// TaskCentricPool.hpp
 // -------
-// Master class for the NPool thread pool utility
+// Master class for the TaskCentricPool thread pool utility
 // *********************************************
-#ifndef NPOOL_H
-#define NPOOL_H
+#ifndef TaskCentricPool_H
+#define TaskCentricPool_H
 
 #include "ThDeque.hpp"
 #include "ThDequeThread.hpp"
@@ -19,13 +19,13 @@
 #include <vector>
 
 // =========================================================
-// Class NPool implements new features:
+// Class TaskCentricPool implements new features:
 //
 // - Smart Pointers
 // - Deque of tasks for each thread, not only one deque for all threads
 // =========================================================
 
-class NPool
+class TaskCentricPool
    {
    private:
 
@@ -57,8 +57,8 @@ class NPool
 
    public:
 
-   NPool(int nThreads, int nMax=100);	
-   ~NPool();
+   TaskCentricPool(int nThreads, int nMax=100);	
+   ~TaskCentricPool();
    int   GetThreadRank();
 
    int   SubmitJob(TaskGroup *tg);

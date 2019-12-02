@@ -10,7 +10,7 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <NPool.hpp>
+#include <TaskCentricPool.hpp>
 #include <Timer.hpp>
 #include <RandInt.hpp>
 #include <SafeCout.hpp>

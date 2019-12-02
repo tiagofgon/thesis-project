@@ -29,7 +29,7 @@
 
 // JobMgr.h
 // --------
-// This is an auxiliary class, part of the NPool 
+// This is an auxiliary class, part of the TaskCentricPool 
 // utility. It corresponds o the job manager that
 // is created for each submitted job, monitoring 
 // the job execution and synchronizing with the
