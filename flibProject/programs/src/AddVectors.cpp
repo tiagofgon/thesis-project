@@ -13,14 +13,14 @@
 // The value of nsamples can be modified from the command
 // line.
 //
-// This example employs the SPool utility. The ThreadRange
+// This example employs the ThreadCentricPool utility. The ThreadRange
 // member function is used to determine the range of vector
 // indices allocated to each thread.
 // ----------------------------------------------------------
 #include <stdlib.h>
 #include <CpuTimer.hpp>
 #include <Rand.hpp>
-#include <SPool.hpp>
+#include <ThreadCentricPool.hpp>
 #include <iostream>
 #include <string>
 #include <Timer.hpp>
@@ -41,7 +41,7 @@ double B[VECSIZE];
 double C[VECSIZE];
 long nsamples;
 
-SPool *TH;   
+ThreadCentricPool *TH;   
 
 
 //Mostra onde cada thread esteve a trabalhar no intervalo de dados
@@ -115,23 +115,23 @@ void thread_fct(void *P)
    //TH->ThreadRange(beg, end);  // now [beg, end) is range for this thread
 
 
-   {
-      std::pair<int, int> par = TH->schedule_static(beg, end);
-      beg=par.first;
-      end=par.second;
-      //std::cout << "\n Thread: " << TH->GetRank() << " " << "computing in range [" << beg << " , " << end << ")" << std::endl;
-      std::cout << "beg: " << beg << " end: " << end << std::endl;
-      doWork(beg, end);
-   }
+   // {
+   //    std::pair<int, int> par = TH->schedule_static(beg, end);
+   //    beg=par.first;
+   //    end=par.second;
+   //    //std::cout << "\n Thread: " << TH->GetRank() << " " << "computing in range [" << beg << " , " << end << ")" << std::endl;
+   //    std::cout << "beg: " << beg << " end: " << end << std::endl;
+   //    doWork(beg, end);
+   // }
 
 
    // {
-   //    while(end<VECSIZE) {
+   //    while(beg<VECSIZE) {
    //       std::pair<int, int> par = TH->schedule_dynamic(0, VECSIZE, 7);
    //       beg=par.first;
    //       end=par.second;
    //       //std::cout << "\n Thread: " << TH->GetRank() << " " << "computing in range [" << beg << " , " << end << ")" << std::endl;
-         
+   //       //std::cout << "beg: " << beg << " end: " << end << std::endl;
    //       doWork(beg, end);
 
    //    }
@@ -139,16 +139,16 @@ void thread_fct(void *P)
 
 
 
-   // {
-   //    while(end<VECSIZE) {
-   //       std::pair<int, int> par = TH->schedule_guided(0, VECSIZE, 7);
-   //       beg=par.first;
-   //       end=par.second;
-   //       //std::cout << "\n Thread: " << TH->GetRank() << " " << "computing in range [" << beg << " , " << end << ")" << std::endl;
-         
-   //       doWork(beg, end);
-   //    }
-   // }
+   {
+      while(beg<VECSIZE) {
+         std::pair<int, int> par = TH->schedule_guided(0, VECSIZE, 4);
+         beg=par.first;
+         end=par.second;
+         //std::cout << "\n Thread: " << TH->GetRank() << " " << "computing in range [" << beg << " , " << end << ")" << std::endl;
+         //std::cout << "beg: " << beg << std::endl;
+         doWork(beg, end);
+      }
+   }
 
 
 }
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 
    if(argc==2) nsamples = atoi(argv[1]);
    else nsamples = 20000;
-   TH = new SPool(4);
+   TH = new ThreadCentricPool(4);
    
    // Vector components are initialized to random values in [0, 1]
    // ------------------------------------------------------------

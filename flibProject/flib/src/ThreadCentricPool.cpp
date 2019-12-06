@@ -35,6 +35,9 @@ ThreadCentricPool::ThreadCentricPool(int nTh, double stksize)
    {
    int n;
 
+   // index for sheduling
+   index=0;
+
    // initialize the fields, copying the input parameters 
    // ---------------------------------------------------
    nThreads = nTh;
@@ -204,56 +207,42 @@ std::pair<int,int> ThreadCentricPool::schedule_static(int Beg, int End) {
    return std::make_pair (Beg,End);
 }
 
-std::pair<int,int> ThreadCentricPool::schedule_dynamic(int Beg, int End)
+std::pair<int,int> ThreadCentricPool::schedule_dynamic(int Beg, int End, int chunk)
    {
-   int n, rank, beg, end;
-   int size, D, R;
-   rank = GetRank();
+   int beg, end;
 
-   size = End-Beg;
-   D = (size/nThreads);
-   R = size%nThreads;
+   beg = index.fetch_add(chunk);
+   if(beg >= End) 
+      return std::make_pair (beg,beg);
+   end = beg+chunk;
+   if(end > End) 
+      end = End;
 
-   end = Beg;
-   for(n=1; n<=rank; n++)
-      {
-      beg = end;
-      end = beg+D;
-      if(R)
-         {
-         end++;
-         R--;
-         }
-      }
-   Beg = beg;
-   End = end;
-   return std::make_pair (Beg,End);
+   return std::make_pair(beg,end);
    }
 
-std::pair<int,int> ThreadCentricPool::schedule_guided(int Beg, int End)
+std::pair<int,int> ThreadCentricPool::schedule_guided(int Beg, int End, int chunk)
    {
    int n, rank, beg, end;
    int size, D, R;
    rank = GetRank();
 
-   size = End-Beg;
+   {
+   std::lock_guard<std::mutex> lock(pMutex);
+   size = End - index;
    D = (size/nThreads);
-   R = size%nThreads;
+   if(D < chunk) 
+      D = chunk;
+   beg = index.fetch_add(D);
+   }
+   if(beg >= End) 
+      return std::make_pair (beg,beg);
+   end = beg+D;
+   if(end > End) 
+      end = End;
+   
 
-   end = Beg;
-   for(n=1; n<=rank; n++)
-      {
-      beg = end;
-      end = beg+D;
-      if(R)
-         {
-         end++;
-         R--;
-         }
-      }
-   Beg = beg;
-   End = end;
-   return std::make_pair (Beg,End);
+   return std::make_pair (beg,end);
    }
 
 // void ThreadCentricPool::ThreadRange(double& Beg, double& End)

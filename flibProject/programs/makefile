@@ -2,7 +2,7 @@ VPATH = src
 
 EXECS =  tnp1 \
 		 fibonacci_async fibonacci_1 fibonacci_2 \
-		 heat feach spawn1 spawn2 spawn3
+		 heat feach spawn1 spawn2 spawn3 heatf heatomp heatompTask
 
 #""""""""""""""""""""""""""""""""""""""""
 # Some variables concerning library paths
@@ -10,6 +10,8 @@ EXECS =  tnp1 \
 LBASE  = -lpthread
 
 PATHV = -L../flib
+
+OPENMP_FLAG = -fopenmp
 
 
 include makefile-compiler
@@ -36,6 +38,18 @@ fibonacci_2: fibonacci_2.o
 heat:  heat.o HeatAux.o
 	${CXX} -oheat heat.o HeatAux.o ${PATHV} ${LBASE} -lflib -ltbb 
 	rm heat.o
+
+heatf:  HeatF.o HeatAux.o
+	${CXX} -oheatf -fopenmp HeatF.o HeatAux.o ${PATHV} ${LBASE} -lflib
+	rm HeatF.o
+
+heatomp:  HeatOmp.o HeatAux.o
+	${CXX} -oheatomp -fopenmp HeatOmp.o HeatAux.o ${PATHV} ${LBASE} -lflib
+	rm HeatOmp.o
+
+heatompTask:  HeatompTask.o HeatAux.o
+	${CXX} -oheatompTask -fopenmp HeatompTask.o HeatAux.o ${PATHV} ${LBASE} -lflib
+	rm HeatompTask.o
 
 addvec:  AddVectors.o
 	${CXX} -oaddvec AddVectors.o ${PATHV} ${LBASE} -lflib 

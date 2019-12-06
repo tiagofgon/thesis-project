@@ -38,6 +38,10 @@ class ThreadCentricPool
      // --------------------
      std::mutex         pMutex;
      BkBarrier          *BlBarrier;
+
+    // index for sheduling
+    // -------------------
+    std::atomic<int> index;
  
      void JoinThreads();    
 
@@ -62,8 +66,8 @@ class ThreadCentricPool
     //  void ThreadRange(int& beg, int& end);       // work sharing
     //  void ThreadRange(double& beg, double& end);
      std::pair<int,int> schedule_static(int Beg, int End);
-     std::pair<int,int> schedule_dynamic(int Beg, int End);
-     std::pair<int,int> schedule_guided(int Beg, int End);
+     std::pair<int,int> schedule_dynamic(int Beg, int End, int chunk);
+     std::pair<int,int> schedule_guided(int Beg, int End, int chunk);
 
      friend void threadFunc(void *P);
     };
